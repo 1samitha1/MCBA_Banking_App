@@ -1,0 +1,14 @@
+# ignore build files
+**/bin/
+**/obj/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+
+# VS & VS Code settings
+.vscode/
+.vs/

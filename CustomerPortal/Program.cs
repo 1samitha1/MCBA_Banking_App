@@ -3,6 +3,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Get Configuration Strings
+var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString");
+var webApiConnectionString = builder.Configuration.GetConnectionString("webApiConnectionString");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
