@@ -1,26 +1,51 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net9.0": {
+      "SimpleHashing.Net/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SimpleHashing.Net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SimpleHashing.Net.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "SimpleHashing.Net/2.1.0": {
+      "sha512": "mx9W9YjQxEP8Lma/RVbDsS0dHKV5lEb3vldWdxgvD4o625To0XtxWroNcDR8cPdtANgTTo9QKjryZzHDjbonhg==",
+      "type": "package",
+      "path": "simplehashing.net/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/SimpleHashing.Net.dll",
+        "simplehashing.net.2.1.0.nupkg.sha512",
+        "simplehashing.net.nuspec"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net9.0": [
+      "SimpleHashing.Net >= 2.1.0"
+    ]
   },
   "packageFolders": {
-    "/Users/samitha/.nuget/packages/": {}
+    "/Users/adhi98/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
+      "projectUniqueName": "/Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
       "projectName": "CustomerPortal",
-      "projectPath": "/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
-      "packagesPath": "/Users/samitha/.nuget/packages/",
-      "outputPath": "/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/obj/",
+      "projectPath": "/Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
+      "packagesPath": "/Users/adhi98/.nuget/packages/",
+      "outputPath": "/Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/samitha/.nuget/NuGet/NuGet.Config"
+        "/Users/adhi98/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -49,6 +74,12 @@
     "frameworks": {
       "net9.0": {
         "targetAlias": "net9.0",
+        "dependencies": {
+          "SimpleHashing.Net": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -68,7 +99,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
