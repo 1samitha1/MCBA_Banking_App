@@ -190,3 +190,15 @@
 /Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/obj/Debug/net9.0/CustomerPortal.pdb
 /Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/obj/Debug/net9.0/CustomerPortal.genruntimeconfig.cache
 /Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/obj/Debug/net9.0/ref/CustomerPortal.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/obj/Debug/net9.0/CustomerPortal.csproj.AssemblyReference.cache
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Configuration.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Binder.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Configuration.FileExtensions.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Json.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.FileProviders.Physical.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.FileSystemGlobbing.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/bin/Debug/net9.0/SimpleHashing.Net.dll
+/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/obj/Debug/net9.0/Customer.29A936CE.Up2Date

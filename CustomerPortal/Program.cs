@@ -3,6 +3,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Get Configuration Strings
+var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString");
+var webApiConnectionString = builder.Configuration.GetConnectionString("webApiConnectionString");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,8 +25,12 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
+    // name: "default",
+    // pattern: "{controller=Home}/{action=Index}/{id?}")
+    // .WithStaticAssets();
+
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Login}/{action=Index}")
     .WithStaticAssets();
 
 

@@ -1,10 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "YPbnyR9WTbY=",
+  "dgSpecHash": "40uGU3gdK94=",
   "success": true,
-  "projectFilePath": "/Users/adhi98/Files/MSc/Sem 3/Webdev/Assignments/a2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
+  "projectFilePath": "/Users/samitha/Desktop/University/studies/sem 3/Web Development Technologies/Assignments/assignment2/S4072738-S4119687-a2/CustomerPortal/CustomerPortal.csproj",
   "expectedPackageFiles": [
-    "/Users/adhi98/.nuget/packages/simplehashing.net/2.1.0/simplehashing.net.2.1.0.nupkg.sha512"
+    "/Users/samitha/.nuget/packages/microsoft.extensions.configuration/9.0.8/microsoft.extensions.configuration.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.8/microsoft.extensions.configuration.abstractions.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.configuration.binder/9.0.8/microsoft.extensions.configuration.binder.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.configuration.fileextensions/9.0.8/microsoft.extensions.configuration.fileextensions.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.configuration.json/9.0.8/microsoft.extensions.configuration.json.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.fileproviders.abstractions/9.0.8/microsoft.extensions.fileproviders.abstractions.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.fileproviders.physical/9.0.8/microsoft.extensions.fileproviders.physical.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.filesystemglobbing/9.0.8/microsoft.extensions.filesystemglobbing.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/microsoft.extensions.primitives/9.0.8/microsoft.extensions.primitives.9.0.8.nupkg.sha512",
+    "/Users/samitha/.nuget/packages/simplehashing.net/2.1.0/simplehashing.net.2.1.0.nupkg.sha512"
   ],
   "logs": []
 }

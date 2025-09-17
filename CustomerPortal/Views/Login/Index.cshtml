@@ -1,0 +1,27 @@
+﻿@{
+   // ViewData["Title"] = "Login Page";
+
+}
+
+<div class="d-flex text-center justify-content-center align-items-center">
+    <div class="card shadow p-4" style="width: 500px;">
+        <h4 class="display-4">Login</h4>
+        <form method="post">
+            <div class="form-group">
+                <label for="LoginId">Login ID</label>
+                <!-- need asp-for for inputs -->
+                <input width="30px" type="text" class="form-control" id="LoginId" name="LoginId" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" id="Password" name="Password"  required />
+            </div>
+            <div class="d-grid justify-content-center align-items-center" style="width: 100%; margin-top: 20px;">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            
+        </form>
+    </div>
+    
+</div>

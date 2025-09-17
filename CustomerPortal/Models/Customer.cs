@@ -35,6 +35,6 @@ public class Customer
     public string? Mobile { get; set; }
 
     // Navigation
-    public ICollection<Account> Accounts { get; set; } = new List<Account>();
+    //public ICollection<Account> Accounts { get; set; } = new List<Account>();
     public Login Login { get; set; } = null!;
 }
