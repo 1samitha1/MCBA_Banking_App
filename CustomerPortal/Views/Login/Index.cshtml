@@ -6,7 +6,7 @@
 <div class="d-flex text-center justify-content-center align-items-center">
     <div class="card shadow p-4" style="width: 500px;">
         <h4 class="display-4">Login</h4>
-        <form method="post">
+        <form asp-controller="Login" asp-action="HandleLogin" method="post">
             <div class="form-group">
                 <label for="LoginId">Login ID</label>
                 <!-- need asp-for for inputs -->
