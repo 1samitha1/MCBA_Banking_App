@@ -7,7 +7,7 @@ namespace CustomerPortal.Models;
 public class Transaction
 {
     [Key]
-    public int TransactionId { get; set; }
+    public int TransactionID { get; set; }
     
     [Required]
     public TransactionType TransactionType { get; set; }

@@ -6,7 +6,7 @@ namespace CustomerPortal.Models;
 public class BillPay
 {
     [Key]
-    public int BillPayId { get; set; }
+    public int BillPayID { get; set; }
     [Required]
     public int AccountNumber { get; set; }
     [Required]

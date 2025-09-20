@@ -5,7 +5,7 @@ namespace CustomerPortal.Models;
 public class Login
 {
     [Key, StringLength(8)]
-    public string LoginId { get; set; }
+    public string LoginID { get; set; }
 
     [Required]
     public string CustomerId { get; set; }

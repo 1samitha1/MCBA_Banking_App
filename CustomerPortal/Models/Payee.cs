@@ -5,7 +5,7 @@ namespace CustomerPortal.Models;
 public class Payee
 {
     [Key]
-    public int PayeeId { get; set; }
+    public int PayeeID { get; set; }
     [Required, StringLength(50)]
     public string Name { get; set; }
     [Required, StringLength(40)]
