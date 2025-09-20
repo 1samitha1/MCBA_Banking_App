@@ -12,7 +12,3 @@ project.fragment.lock.json
 # VS & VS Code settings
 .vscode/
 .vs/
-
-#configs changes
-./appsettings.json
-./appsettings.Development.json
