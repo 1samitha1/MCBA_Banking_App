@@ -8,9 +8,16 @@ builder.Services.AddControllersWithViews();
 
 
 // Get Configuration Strings
-var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString")
-                         ?? throw new InvalidOperationException("Missing ConnectionStrings:dbConnectionString.");
+var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString");
+    if (string.IsNullOrWhiteSpace(dbConnectionString)) {
+        throw new InvalidOperationException(
+            "Missing or empty dbConnectionString. Need to set it in appsettings.json");
+    }
 var webApiConnectionString = builder.Configuration.GetConnectionString("webApiConnectionString");
+    if (string.IsNullOrWhiteSpace(webApiConnectionString)) {
+        throw new InvalidOperationException(
+            "Missing or empty webApiConnectionString. Need to set it in appsettings.json");
+    }
 
 //initialize database
 builder.Services.AddDbContext<McbaContext>(opt =>
