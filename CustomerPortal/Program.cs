@@ -1,5 +1,7 @@
 using CustomerPortal.Data;
 using Microsoft.EntityFrameworkCore;
+using CustomerPortal.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,17 @@ var webApiConnectionString = builder.Configuration.GetConnectionString("webApiCo
 builder.Services.AddDbContext<McbaContext>(opt =>
     opt.UseSqlServer(dbConnectionString));
 
+
+// register webservice
+builder.Services.AddTransient<WebService>();
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var webService = scope.ServiceProvider.GetRequiredService<WebService>();
+    await webService.HandleWebRequest();
+}
 
 //apply migration on startup
 // using (var scope = app.Services.CreateScope())

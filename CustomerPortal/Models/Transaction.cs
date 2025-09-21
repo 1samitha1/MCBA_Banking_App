@@ -22,6 +22,10 @@ public class Transaction
     [Required]
     public DateTime TransactionTimeUtc { get; set; }
     
+    [InverseProperty("Transactions")]
+    [ForeignKey("AccountNumber")]
     public Account Account { get; set; } = null!;
-    public Account DestinationAccount { get; set; }
+    [InverseProperty("DestinationTransactions")]
+    [ForeignKey("DestinationAccountNumber")]
+    public Account? DestinationAccount { get; set; }
 }

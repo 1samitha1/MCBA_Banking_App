@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
@@ -8,10 +9,11 @@ public class Login
     public string LoginID { get; set; }
 
     [Required]
-    public string CustomerId { get; set; }
+    public int CustomerID { get; set; }
 
     [Required, StringLength(94)]
     public string PasswordHash { get; set; } = string.Empty;
     
-    public Customer customer{get;set;}
+    [ForeignKey("CustomerID")]
+    public Customer Customer{get;set;}
 }

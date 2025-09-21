@@ -19,6 +19,12 @@ public class Account
 
     // navs
     public Customer Customer { get; set; } = null!;
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    
+   [InverseProperty("Account")]
+   public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+
+   [InverseProperty("DestinationAccount")]
+   public ICollection<Transaction> DestinationTransactions { get; set; } = new List<Transaction>();
+   
     public ICollection<BillPay> BillPays { get; set; } = new List<BillPay>();
 }

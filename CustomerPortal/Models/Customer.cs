@@ -29,6 +29,7 @@ public class Customer
     public string? Mobile { get; set; }
 
     // navs
-    public Login Login { get; set; } = null!;
+    public ICollection<Login> Logins { get; set; } = new List<Login>();
+    
     public ICollection<Account> Accounts { get; set; } = new List<Account>();
 }

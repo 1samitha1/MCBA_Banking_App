@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomerPortal.Data;
 
-public class McbaContext : DbContext
+public class McbaContext: DbContext
 {
     public McbaContext(DbContextOptions<McbaContext> options) : base(options) { }
     
