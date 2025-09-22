@@ -1,14 +1,15 @@
-# ignore build files
-**/bin/
-**/obj/
+# OS / IDE
+.DS_Store
+.idea/
+*.user
+*.suo
 
-# NuGet packages
-*.nupkg
-*.snupkg
-*.nuspec
-project.lock.json
-project.fragment.lock.json
+# .NET build output
+bin/
+obj/
+*.cache
+*.log
 
-# VS & VS Code settings
-.vscode/
+# Rider / VS caches
 .vs/
+*.DotSettings.user

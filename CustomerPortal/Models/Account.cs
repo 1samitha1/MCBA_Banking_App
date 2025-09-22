@@ -9,10 +9,10 @@ public class Account
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int AccountNumber { get; set; }               // PK (not identity)
+    public int AccountNumber { get; set; }            
 
     [Required]
-    public AccountType AccountType { get; set; }         // char(1) via converter
+    public AccountType AccountType { get; set; }         
 
     [Required]
     public int CustomerID { get; set; }

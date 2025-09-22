@@ -27,10 +27,12 @@ public class LoginController : Controller
         //validate form input
         if (!ModelState.IsValid)
         {
+            Console.WriteLine("Invalid login" + ModelState);
             return View("Index", model);
         }
         
         //Authentication via auth service
+        
         var (ok, message, customerId, customerName) = await _authService
             .SignInAsync(model.LoginID, model.Password);
         if (!ok)
