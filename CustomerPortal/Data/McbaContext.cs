@@ -1,4 +1,5 @@
 using CustomerPortal.Models;
+using CustomerPortal.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -22,15 +23,15 @@ public class McbaContext : DbContext
         // --- map enums as single CHARs ---
         var accountTypeConv = new ValueConverter<AccountType, string>(
             v => ((char)v).ToString(),
-            v => (AccountType)(byte)v[0]);
+            v => (AccountType)v[0]);
 
         var txnTypeConv = new ValueConverter<TransactionType, string>(
             v => ((char)v).ToString(),
-            v => (TransactionType)(byte)v[0]);
+            v => (TransactionType)v[0]);
 
         var billPeriodConv = new ValueConverter<BillPeriod, string>(
             v => ((char)v).ToString(),
-            v => (BillPeriod)(byte)v[0]);
+            v => (BillPeriod)v[0]);
         
         
         //set relationships (just to verify for EF core

@@ -7,6 +7,7 @@ namespace CustomerPortal.Models;
 public class Customer
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int CustomerID { get; set; }                  // PK (not identity in SQL)
 
     [Required, StringLength(50)]

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CustomerPortal.Utility;
 
 namespace CustomerPortal.Models;
 
@@ -7,6 +8,7 @@ namespace CustomerPortal.Models;
 public class Account
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int AccountNumber { get; set; }               // PK (not identity)
 
     [Required]

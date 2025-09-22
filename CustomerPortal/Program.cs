@@ -1,4 +1,7 @@
 using CustomerPortal.Data;
+using CustomerPortal.Data.Repository;
+using CustomerPortal.Services;
+using CustomerPortal.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +19,22 @@ var webApiConnectionString = builder.Configuration.GetConnectionString("webApiCo
 builder.Services.AddDbContext<McbaContext>(opt =>
     opt.UseSqlServer(dbConnectionString));
 
+//Register service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(o =>
+    {
+        o.IdleTimeout = TimeSpan.FromMinutes(30);
+        o.Cookie.HttpOnly = true;
+        o.Cookie.IsEssential = true;
+    }
+);
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -32,9 +51,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
 
+
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting(); 
+
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
