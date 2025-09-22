@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using CustomerPortal.Utility;
 
 
@@ -26,4 +27,9 @@ public class Transaction
     
     public Account Account { get; set; } = null!;
     public Account? DestinationAccount { get; set; }
+    
+    // for JSON parsing to construct the time and date
+    [NotMapped]
+    [JsonPropertyName("TransactionTimeUtc")]
+    public string TransactionTimeUtcJson { get; set; } = string.Empty;
 }
