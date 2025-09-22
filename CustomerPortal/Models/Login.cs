@@ -3,17 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Login")]
 public class Login
 {
-    [Key, StringLength(8)]
-    public string LoginID { get; set; }
+    [Key, StringLength(8)] 
+    public string LoginID { get; set; } = string.Empty;
 
-    [Required]
+    [Required] 
     public int CustomerID { get; set; }
 
     [Required, StringLength(94)]
     public string PasswordHash { get; set; } = string.Empty;
-    
-    [ForeignKey("CustomerID")]
-    public Customer Customer{get;set;}
+
+    public Customer Customer { get; set; } = null!;
 }

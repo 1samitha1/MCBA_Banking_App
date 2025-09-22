@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 
 namespace CustomerPortal.Models;
 
+[Table("Account")]
 public class Account
 {
     [Key]
     public int AccountNumber { get; set; }               // PK (not identity)
 
     [Required]
-    //public AccountType AccountType { get; set; } // char(1) via converter
-    public string AccountType { get; set; } 
-    
+    public AccountType AccountType { get; set; }         // char(1) via converter
+
     [Required]
     public int CustomerID { get; set; }
 
@@ -21,12 +21,7 @@ public class Account
 
     // navs
     public Customer Customer { get; set; } = null!;
-    
-   [InverseProperty("Account")]
-   public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
-
-   [InverseProperty("DestinationAccount")]
-   public ICollection<Transaction> DestinationTransactions { get; set; } = new List<Transaction>();
-   
+    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     public ICollection<BillPay> BillPays { get; set; } = new List<BillPay>();
+
 }

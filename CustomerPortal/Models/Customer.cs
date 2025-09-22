@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Customer")]
 public class Customer
 {
     [Key]
@@ -13,7 +15,7 @@ public class Customer
     public string Name { get; set; } = string.Empty;
 
     [Required, StringLength(11)]
-    public string? TFN { get; set; } = string.Empty;
+    public string TFN { get; set; } = string.Empty;
 
     [StringLength(50)]
     public string? Address { get; set; }
@@ -31,7 +33,6 @@ public class Customer
     public string? Mobile { get; set; }
 
     // navs
-    public ICollection<Login> Logins { get; set; } = new List<Login>();
-    
+    public Login Login { get; set; } = null!;
     public ICollection<Account> Accounts { get; set; } = new List<Account>();
 }

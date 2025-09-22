@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace CustomerPortal.Models;
 
+[Table("Transaction")]
 public class Transaction
 {
     [Key]
@@ -24,16 +25,11 @@ public class Transaction
     [JsonIgnore]
     public DateTime TransactionTimeUtc { get; set; }
     
-    [InverseProperty("Transactions")]
-    [ForeignKey("AccountNumber")]
     public Account Account { get; set; } = null!;
-    [InverseProperty("DestinationTransactions")]
-    [ForeignKey("DestinationAccountNumber")]
     public Account? DestinationAccount { get; set; }
     
     // for JSON parsing to construct the time and date
     [NotMapped]
     [JsonPropertyName("TransactionTimeUtc")]
     public string TransactionTimeUtcJson { get; set; } = string.Empty; 
-
 }

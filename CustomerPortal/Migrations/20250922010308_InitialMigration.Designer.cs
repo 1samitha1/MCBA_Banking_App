@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerPortal.Migrations
 {
     [DbContext(typeof(McbaContext))]
-    [Migration("20250921091955_InitialMigration")]
+    [Migration("20250922010308_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace CustomerPortal.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Account");
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.BillPay", b =>
@@ -60,16 +60,13 @@ namespace CustomerPortal.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountNumber1")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("Money");
 
                     b.Property<byte>("BillPeriod")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("PayeeId")
+                    b.Property<int>("PayeeID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ScheduleTimeUtc")
@@ -77,9 +74,9 @@ namespace CustomerPortal.Migrations
 
                     b.HasKey("BillPayID");
 
-                    b.HasIndex("AccountNumber1");
+                    b.HasIndex("AccountNumber");
 
-                    b.HasIndex("PayeeId");
+                    b.HasIndex("PayeeID");
 
                     b.ToTable("BillPay");
                 });
@@ -124,7 +121,7 @@ namespace CustomerPortal.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.Login", b =>
@@ -143,9 +140,10 @@ namespace CustomerPortal.Migrations
 
                     b.HasKey("LoginID");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
-                    b.ToTable("Logins");
+                    b.ToTable("Login");
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.Payee", b =>
@@ -187,7 +185,7 @@ namespace CustomerPortal.Migrations
 
                     b.HasKey("PayeeID");
 
-                    b.ToTable("Payees");
+                    b.ToTable("Payee");
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.Transaction", b =>
@@ -223,7 +221,7 @@ namespace CustomerPortal.Migrations
 
                     b.HasIndex("DestinationAccountNumber");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.Account", b =>
@@ -241,13 +239,13 @@ namespace CustomerPortal.Migrations
                 {
                     b.HasOne("CustomerPortal.Models.Account", "Account")
                         .WithMany("BillPays")
-                        .HasForeignKey("AccountNumber1")
+                        .HasForeignKey("AccountNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CustomerPortal.Models.Payee", "Payee")
                         .WithMany("BillPays")
-                        .HasForeignKey("PayeeId")
+                        .HasForeignKey("PayeeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -259,8 +257,8 @@ namespace CustomerPortal.Migrations
             modelBuilder.Entity("CustomerPortal.Models.Login", b =>
                 {
                     b.HasOne("CustomerPortal.Models.Customer", "Customer")
-                        .WithMany("Logins")
-                        .HasForeignKey("CustomerID")
+                        .WithOne("Login")
+                        .HasForeignKey("CustomerPortal.Models.Login", "CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -276,7 +274,7 @@ namespace CustomerPortal.Migrations
                         .IsRequired();
 
                     b.HasOne("CustomerPortal.Models.Account", "DestinationAccount")
-                        .WithMany("DestinationTransactions")
+                        .WithMany()
                         .HasForeignKey("DestinationAccountNumber");
 
                     b.Navigation("Account");
@@ -288,8 +286,6 @@ namespace CustomerPortal.Migrations
                 {
                     b.Navigation("BillPays");
 
-                    b.Navigation("DestinationTransactions");
-
                     b.Navigation("Transactions");
                 });
 
@@ -297,7 +293,8 @@ namespace CustomerPortal.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("Logins");
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CustomerPortal.Models.Payee", b =>

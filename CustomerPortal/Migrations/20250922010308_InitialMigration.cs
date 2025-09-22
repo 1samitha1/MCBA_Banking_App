@@ -12,7 +12,7 @@ namespace CustomerPortal.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Customer",
                 columns: table => new
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false)
@@ -27,11 +27,11 @@ namespace CustomerPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                    table.PrimaryKey("PK_Customer", x => x.CustomerID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payees",
+                name: "Payee",
                 columns: table => new
                 {
                     PayeeID = table.Column<int>(type: "int", nullable: false)
@@ -45,11 +45,11 @@ namespace CustomerPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payees", x => x.PayeeID);
+                    table.PrimaryKey("PK_Payee", x => x.PayeeID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Accounts",
+                name: "Account",
                 columns: table => new
                 {
                     AccountNumber = table.Column<int>(type: "int", nullable: false)
@@ -60,17 +60,17 @@ namespace CustomerPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountNumber);
+                    table.PrimaryKey("PK_Account", x => x.AccountNumber);
                     table.ForeignKey(
-                        name: "FK_Accounts_Customers_CustomerID",
+                        name: "FK_Account_Customer_CustomerID",
                         column: x => x.CustomerID,
-                        principalTable: "Customers",
+                        principalTable: "Customer",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Logins",
+                name: "Login",
                 columns: table => new
                 {
                     LoginID = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
@@ -79,11 +79,11 @@ namespace CustomerPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Logins", x => x.LoginID);
+                    table.PrimaryKey("PK_Login", x => x.LoginID);
                     table.ForeignKey(
-                        name: "FK_Logins_Customers_CustomerID",
+                        name: "FK_Login_Customer_CustomerID",
                         column: x => x.CustomerID,
-                        principalTable: "Customers",
+                        principalTable: "Customer",
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -95,31 +95,30 @@ namespace CustomerPortal.Migrations
                     BillPayID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
-                    PayeeId = table.Column<int>(type: "int", nullable: false),
+                    PayeeID = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),
                     ScheduleTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BillPeriod = table.Column<byte>(type: "tinyint", nullable: false),
-                    AccountNumber1 = table.Column<int>(type: "int", nullable: false)
+                    BillPeriod = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BillPay", x => x.BillPayID);
                     table.ForeignKey(
-                        name: "FK_BillPay_Accounts_AccountNumber1",
-                        column: x => x.AccountNumber1,
-                        principalTable: "Accounts",
+                        name: "FK_BillPay_Account_AccountNumber",
+                        column: x => x.AccountNumber,
+                        principalTable: "Account",
                         principalColumn: "AccountNumber",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BillPay_Payees_PayeeId",
-                        column: x => x.PayeeId,
-                        principalTable: "Payees",
+                        name: "FK_BillPay_Payee_PayeeID",
+                        column: x => x.PayeeID,
+                        principalTable: "Payee",
                         principalColumn: "PayeeID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transactions",
+                name: "Transaction",
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
@@ -133,48 +132,49 @@ namespace CustomerPortal.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionID);
+                    table.PrimaryKey("PK_Transaction", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_Transactions_Accounts_AccountNumber",
+                        name: "FK_Transaction_Account_AccountNumber",
                         column: x => x.AccountNumber,
-                        principalTable: "Accounts",
+                        principalTable: "Account",
                         principalColumn: "AccountNumber",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_Accounts_DestinationAccountNumber",
+                        name: "FK_Transaction_Account_DestinationAccountNumber",
                         column: x => x.DestinationAccountNumber,
-                        principalTable: "Accounts",
+                        principalTable: "Account",
                         principalColumn: "AccountNumber");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Accounts_CustomerID",
-                table: "Accounts",
+                name: "IX_Account_CustomerID",
+                table: "Account",
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BillPay_AccountNumber1",
+                name: "IX_BillPay_AccountNumber",
                 table: "BillPay",
-                column: "AccountNumber1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BillPay_PayeeId",
-                table: "BillPay",
-                column: "PayeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Logins_CustomerID",
-                table: "Logins",
-                column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AccountNumber",
-                table: "Transactions",
                 column: "AccountNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_DestinationAccountNumber",
-                table: "Transactions",
+                name: "IX_BillPay_PayeeID",
+                table: "BillPay",
+                column: "PayeeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Login_CustomerID",
+                table: "Login",
+                column: "CustomerID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_AccountNumber",
+                table: "Transaction",
+                column: "AccountNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_DestinationAccountNumber",
+                table: "Transaction",
                 column: "DestinationAccountNumber");
         }
 
@@ -185,19 +185,19 @@ namespace CustomerPortal.Migrations
                 name: "BillPay");
 
             migrationBuilder.DropTable(
-                name: "Logins");
+                name: "Login");
 
             migrationBuilder.DropTable(
-                name: "Transactions");
+                name: "Transaction");
 
             migrationBuilder.DropTable(
-                name: "Payees");
+                name: "Payee");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "Account");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Customer");
         }
     }
 }

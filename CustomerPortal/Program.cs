@@ -33,16 +33,11 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
+    db.Database.Migrate();
     var webService = scope.ServiceProvider.GetRequiredService<WebService>();
     await webService.HandleWebRequest();
 }
-
-//apply migration on startup
-// using (var scope = app.Services.CreateScope())
-// {
-//     var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
-//     db.Database.Migrate();   // creates DB / applies migrations
-// }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
