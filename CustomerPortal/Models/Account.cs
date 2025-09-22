@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CustomerPortal.Models;
 
@@ -9,8 +10,9 @@ public class Account
     public int AccountNumber { get; set; }               // PK (not identity)
 
     [Required]
-    public AccountType AccountType { get; set; }         // char(1) via converter
-
+    //public AccountType AccountType { get; set; } // char(1) via converter
+    public string AccountType { get; set; } 
+    
     [Required]
     public int CustomerID { get; set; }
 

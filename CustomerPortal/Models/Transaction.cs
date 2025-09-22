@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace CustomerPortal.Models;
@@ -20,6 +21,7 @@ public class Transaction
     [StringLength(30)]
     public string? Comments { get; set; }
     [Required]
+    [JsonIgnore]
     public DateTime TransactionTimeUtc { get; set; }
     
     [InverseProperty("Transactions")]
@@ -28,4 +30,10 @@ public class Transaction
     [InverseProperty("DestinationTransactions")]
     [ForeignKey("DestinationAccountNumber")]
     public Account? DestinationAccount { get; set; }
+    
+    // for JSON parsing to construct the time and date
+    [NotMapped]
+    [JsonPropertyName("TransactionTimeUtc")]
+    public string TransactionTimeUtcJson { get; set; } = string.Empty; 
+
 }

@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CustomerPortal.Models;
 
@@ -11,7 +13,7 @@ public class Customer
     public string Name { get; set; } = string.Empty;
 
     [Required, StringLength(11)]
-    public string TFN { get; set; } = string.Empty;
+    public string? TFN { get; set; } = string.Empty;
 
     [StringLength(50)]
     public string? Address { get; set; }
