@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("BillPay")]
 public class BillPay
 {
     [Key]
@@ -10,7 +11,7 @@ public class BillPay
     [Required]
     public int AccountNumber { get; set; }
     [Required]
-    public int PayeeId { get; set; }
+    public int PayeeID { get; set; }
     [Required, Column(TypeName = "Money")]
     public decimal Amount { get; set; }
     [Required]
@@ -18,6 +19,6 @@ public class BillPay
     [Required]
     public BillPeriod BillPeriod { get; set; }
     
-    public Account Account { get; set; }
-    public Payee Payee { get; set; }
+    public Account Account { get; set; } = null!;
+    public Payee Payee { get; set; } = null!;
 }

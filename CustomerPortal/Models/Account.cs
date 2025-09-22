@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Account")]
 public class Account
 {
     [Key]

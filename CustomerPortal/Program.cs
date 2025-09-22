@@ -18,12 +18,11 @@ builder.Services.AddDbContext<McbaContext>(opt =>
 
 var app = builder.Build();
 
-//apply migration on startup
-// using (var scope = app.Services.CreateScope())
-// {
-//     var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
-//     db.Database.Migrate();   // creates DB / applies migrations
-// }
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

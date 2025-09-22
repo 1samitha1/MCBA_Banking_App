@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Customer")]
 public class Customer
 {
     [Key]

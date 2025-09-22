@@ -1,23 +1,26 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Payee")]
 public class Payee
 {
     [Key]
     public int PayeeID { get; set; }
     [Required, StringLength(50)]
-    public string Name { get; set; }
+    public required string Name { get; set; } = string.Empty;
     [Required, StringLength(40)]
-    public string Address { get; set; }
+    public required string Address { get; set; } = string.Empty;
     [Required, StringLength(40)]
-    public string City { get; set; }
+    public required string City { get; set; } = string.Empty;
     [Required, StringLength(3)]
-    public string State { get; set; }
+    public required string State { get; set; }  = string.Empty;
     [StringLength(4)]
     public string? PostCode { get; set; }
     [Required, StringLength(14)]
-    public string Phone { get; set; } = string.Empty;
+    public required string Phone { get; set; } = string.Empty;
     
+    //nav
     public ICollection<BillPay> BillPays { get; set; } = new List<BillPay>();
 }

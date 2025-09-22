@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerPortal.Models;
 
+[Table("Transaction")]
 public class Transaction
 {
     [Key]
@@ -23,5 +24,5 @@ public class Transaction
     public DateTime TransactionTimeUtc { get; set; }
     
     public Account Account { get; set; } = null!;
-    public Account DestinationAccount { get; set; }
+    public Account? DestinationAccount { get; set; }
 }
