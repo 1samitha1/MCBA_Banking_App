@@ -1,7 +1,8 @@
 using CustomerPortal.Data;
-using Microsoft.EntityFrameworkCore;
+using CustomerPortal.Data.Repository;
 using CustomerPortal.Services;
-
+using CustomerPortal.Services.Impl;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,33 +11,36 @@ builder.Services.AddControllersWithViews();
 
 
 // Get Configuration Strings
-var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString");
-    if (string.IsNullOrWhiteSpace(dbConnectionString)) {
-        throw new InvalidOperationException(
-            "Missing or empty dbConnectionString. Need to set it in appsettings.json");
-    }
+var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString")
+                         ?? throw new InvalidOperationException("Missing ConnectionStrings:dbConnectionString.");
 var webApiConnectionString = builder.Configuration.GetConnectionString("webApiConnectionString");
-    if (string.IsNullOrWhiteSpace(webApiConnectionString)) {
-        throw new InvalidOperationException(
-            "Missing or empty webApiConnectionString. Need to set it in appsettings.json");
-    }
 
 //initialize database
 builder.Services.AddDbContext<McbaContext>(opt =>
     opt.UseSqlServer(dbConnectionString));
 
+//Register service
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
-// register webservice
-builder.Services.AddTransient<WebService>();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(o =>
+    {
+        o.IdleTimeout = TimeSpan.FromMinutes(30);
+        o.Cookie.HttpOnly = true;
+        o.Cookie.IsEssential = true;
+    }
+);
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
     db.Database.Migrate();
-    var webService = scope.ServiceProvider.GetRequiredService<WebService>();
-    await webService.HandleWebRequest();
 }
 
 // Configure the HTTP request pipeline.
@@ -47,9 +51,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
 
+
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting(); 
+
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();

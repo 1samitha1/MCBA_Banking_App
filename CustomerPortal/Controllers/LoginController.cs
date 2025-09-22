@@ -1,26 +1,48 @@
+using CustomerPortal.Data;
+using CustomerPortal.Services;
+using CustomerPortal.Services.Impl;
+using CustomerPortal.Utility;
+using CustomerPortal.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 namespace CustomerPortal.Controllers;
 
 public class LoginController : Controller
 {
+    private readonly IAuthService _authService;
+
+    public LoginController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        return View(new LoginViewModel());//
     }
     
     [HttpPost]
-    public IActionResult HandleLogin(string loginId, string password)
-    { 
-        // check inputs
-        if (string.IsNullOrEmpty(loginId) || string.IsNullOrEmpty(password))
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> HandleLogin(LoginViewModel model)
+    {
+        //validate form input
+        if (!ModelState.IsValid)
         {
-            // show error and return
-            return View("Index");
+            Console.WriteLine("Invalid login" + ModelState);
+            return View("Index", model);
         }
         
-       // get login details
-       // verify the hash
-       // perform login
-       return RedirectToAction("Index", "Home");
+        //Authentication via auth service
+        
+        var (ok, message, customerId, customerName) = await _authService
+            .SignInAsync(model.LoginID, model.Password);
+        if (!ok)
+        {
+            ModelState.AddModelError(string.Empty, message!);
+            return View("Index", model);
+        }
+        
+        return RedirectToAction("Index", "Home");
     }
+
+    
 }

@@ -4,6 +4,7 @@ using CustomerPortal.Models;
 
 namespace CustomerPortal.Controllers;
 
+[RequireHttps]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
