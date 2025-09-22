@@ -21,7 +21,8 @@ public class AuthService :IAuthService
         SignInAsync(string loginId, string password)
     {
         var login = await _loginRepository.GetLoginIdAsync(loginId);
-        if (login == null && !_passwordService.Verify(password, login.PasswordHash))
+        Console.WriteLine("Here");
+        if (login == null && !_passwordService.Verify(password, login!.PasswordHash))
         {
             return (false, "Invalid login or password", null, null);
         }

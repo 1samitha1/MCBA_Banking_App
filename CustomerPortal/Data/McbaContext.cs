@@ -23,7 +23,7 @@ public class McbaContext : DbContext
         // --- map enums as single CHARs ---
         var accountTypeConv = new ValueConverter<AccountType, string>(
             v => ((char)v).ToString(),
-            v => (AccountType)v[0]);
+            v => Enum.Parse<AccountType>(v));
 
         var txnTypeConv = new ValueConverter<TransactionType, string>(
             v => ((char)v).ToString(),
