@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CustomerPortal.Models;
 
+[Table("Account")]
 public class Account
 {
     [Key]
@@ -21,4 +23,5 @@ public class Account
     public Customer Customer { get; set; } = null!;
     public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     public ICollection<BillPay> BillPays { get; set; } = new List<BillPay>();
+
 }

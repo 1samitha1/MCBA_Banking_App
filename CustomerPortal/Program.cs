@@ -1,5 +1,7 @@
 using CustomerPortal.Data;
 using Microsoft.EntityFrameworkCore;
+using CustomerPortal.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +25,19 @@ var webApiConnectionString = builder.Configuration.GetConnectionString("webApiCo
 builder.Services.AddDbContext<McbaContext>(opt =>
     opt.UseSqlServer(dbConnectionString));
 
+
+// register webservice
+builder.Services.AddTransient<WebService>();
+
 var app = builder.Build();
 
-//apply migration on startup
-// using (var scope = app.Services.CreateScope())
-// {
-//     var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
-//     db.Database.Migrate();   // creates DB / applies migrations
-// }
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<McbaContext>();
+    db.Database.Migrate();
+    var webService = scope.ServiceProvider.GetRequiredService<WebService>();
+    await webService.HandleWebRequest();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
