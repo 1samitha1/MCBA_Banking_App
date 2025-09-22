@@ -25,13 +25,12 @@ namespace CustomerPortal.Migrations
             modelBuilder.Entity("CustomerPortal.Models.Account", b =>
                 {
                     b.Property<int>("AccountNumber")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"));
-
-                    b.Property<byte>("AccountType")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("money");
@@ -81,10 +80,7 @@ namespace CustomerPortal.Migrations
             modelBuilder.Entity("CustomerPortal.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(50)
@@ -209,8 +205,10 @@ namespace CustomerPortal.Migrations
                     b.Property<DateTime>("TransactionTimeUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("TransactionType")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.HasKey("TransactionID");
 

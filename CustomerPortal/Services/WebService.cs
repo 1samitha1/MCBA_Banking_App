@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json.Serialization;
 using CustomerPortal.Data;
 using CustomerPortal.Models;
 
@@ -16,86 +17,78 @@ public class WebService
         webServiceUrl = configuration.GetConnectionString("webApiConnectionString")!;
         mcbacontext = context;
     }
-    
+
     public async Task<bool> HandleWebRequest()
     {
         try
         {
-            if (mcbacontext == null)
+            // check for existing customers
+            if (mcbacontext.Customers.Any())
             {
-                Console.WriteLine("mcbacontext is null!");
-                return false;
+                Console.WriteLine("No web requests will be processed as customers exists in DB.");
+                return true;
             }
-            
+
             using var client = new HttpClient();
             var jsonData = await client.GetStringAsync(webServiceUrl);
-            
-            Console.Write("before " + jsonData);
-            
-            var customers = JsonSerializer.Deserialize<List<Customer>>(jsonData);
-            
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            var customers = JsonSerializer.Deserialize<List<Customer>>(jsonData, options);
+            if (customers == null)
+            {
+                Console.WriteLine("No customer data found in web service.");
+                return false;
+            }
+
             foreach (var customer in customers)
             {
-                // Process Login
-                // if (customer.Login != null)
-                // {
-                //
-                //     customer.Login.CustomerID = customer.CustomerID;
-                //     customer.Logins.Add(customer.Login);
-                //     customer.Login.Customer = customer;
-                // }
-            
-                // Process Accounts
+                if (customer.Login != null)
+                {
+                    // create login data
+                    customer.Login.CustomerID = customer.CustomerID;
+                    customer.Login.Customer = customer;
+                }
+                
                 foreach (var account in customer.Accounts)
                 {
                     account.Customer = customer;
                     decimal balance = 0;
-            
-                    if (account.Transactions != null)
+
+                    foreach (var transaction in account.Transactions)
                     {
-                        foreach (var transaction in account.Transactions)
+                        // setting transactions
+                        transaction.Account = account;
+                        transaction.TransactionType = TransactionType.Deposit;
+                        transaction.AccountNumber = account.AccountNumber;
+
+                        if (!string.IsNullOrWhiteSpace(transaction.TransactionTimeUtcJson))
                         {
-                            if (transaction == null) continue;
-            
-                            transaction.Account = account;
-                            transaction.TransactionType = TransactionType.Deposit;
-                            transaction.AccountNumber = account.AccountNumber;
-            
-                            // Use the correct JSON property name
-                            if (!string.IsNullOrWhiteSpace(transaction.TransactionTimeUtcJson))
-                            {
-                                transaction.TransactionTimeUtc = DateTime.ParseExact(
-                                    transaction.TransactionTimeUtcJson,
-                                    "dd/MM/yyyy hh:mm:ss tt",
-                                    CultureInfo.InvariantCulture);
-                            }
-            
-                            balance += transaction.Amount;
+                            // converting time
+                            transaction.TransactionTimeUtc = DateTime.ParseExact(
+                                transaction.TransactionTimeUtcJson,
+                                "dd/MM/yyyy hh:mm:ss tt",
+                                CultureInfo.InvariantCulture);
                         }
+
+                        balance += transaction.Amount;
                     }
-            
+
                     account.Balance = balance;
                 }
-            
-                // Add the full graph to DbContext
                 mcbacontext.Customers.Add(customer);
             }
-            
+
             await mcbacontext.SaveChangesAsync();
             return true;
-            
-           
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Console.WriteLine($"An error occurred when request web api data: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
-            if (ex.InnerException != null)
-            {
-                Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-            }
             return false;
-            
         }
     }
 }
