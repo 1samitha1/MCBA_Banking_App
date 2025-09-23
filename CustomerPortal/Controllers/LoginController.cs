@@ -17,7 +17,7 @@ public class LoginController : Controller
 
     public IActionResult Index()
     {
-        return View(new LoginViewModel());//
+        return View(new LoginViewModel());
     }
     
     [HttpPost]
