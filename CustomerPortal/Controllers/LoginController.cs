@@ -6,6 +6,7 @@ using CustomerPortal.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 namespace CustomerPortal.Controllers;
 
+[RequireHttps]
 public class LoginController : Controller
 {
     private readonly IAuthService _authService;
@@ -27,7 +28,6 @@ public class LoginController : Controller
         //validate form input
         if (!ModelState.IsValid)
         {
-            Console.WriteLine("Invalid login" + ModelState);
             return View("Index", model);
         }
         
@@ -37,11 +37,12 @@ public class LoginController : Controller
             .SignInAsync(model.LoginID, model.Password);
         if (!ok)
         {
-            ModelState.AddModelError(string.Empty, message!);
+            ModelState.AddModelError(string.Empty, message ?? "Invalid Login ID or Password");
+            // ModelState.Clear();
             return View("Index", model);
         }
         
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index","Home");
     }
 
     

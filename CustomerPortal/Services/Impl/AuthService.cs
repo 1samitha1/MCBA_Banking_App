@@ -22,7 +22,7 @@ public class AuthService :IAuthService
     {
         var login = await _loginRepository.GetLoginIdAsync(loginId);
         Console.WriteLine("Here");
-        if (login == null && !_passwordService.Verify(password, login!.PasswordHash))
+        if (login == null || !_passwordService.Verify(password, login.PasswordHash))
         {
             return (false, "Invalid login or password", null, null);
         }
