@@ -23,6 +23,7 @@ public class Transaction
     [StringLength(30)]
     public string? Comments { get; set; }
     [Required]
+    [JsonIgnore] // resolve collision with web request data
     public DateTime TransactionTimeUtc { get; set; }
     
     public Account Account { get; set; } = null!;

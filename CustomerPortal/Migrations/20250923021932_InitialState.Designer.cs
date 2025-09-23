@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerPortal.Migrations
 {
     [DbContext(typeof(McbaContext))]
-    [Migration("20250922082149_intialState")]
-    partial class intialState
+    [Migration("20250923021932_InitialState")]
+    partial class InitialState
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,10 @@ namespace CustomerPortal.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountType")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("money");
@@ -206,8 +208,10 @@ namespace CustomerPortal.Migrations
                     b.Property<DateTime>("TransactionTimeUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.HasKey("TransactionID");
 

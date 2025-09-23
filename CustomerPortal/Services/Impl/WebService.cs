@@ -8,7 +8,7 @@ namespace CustomerPortal.Services;
 using System.Net.Http;
 using System.Text.Json;
 
-public class WebService
+public class WebService : IWebService
 {
     private readonly string webServiceUrl;
     private readonly McbaContext mcbacontext;

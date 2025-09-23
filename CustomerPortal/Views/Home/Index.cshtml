@@ -4,4 +4,27 @@
 
 <div class="text-center">
     <h1 class="display-4">MCBA Internet banking</h1>
+    <div class="container mt-4">
+        <h2 class="mb-4">Your Accounts</h2>
+        <table class="table table-bordered table-striped shadow-sm">
+            <thead class="table-primary">
+            <tr>
+                <th>Account Number</th>
+                <th>Account Type</th>
+                <th>Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var account in Model)
+            {
+                <tr>
+                    <td>@account.AccountNumber</td>
+                    <td>@account.AccountType</td>
+                    <td>$@account.Balance</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
 </div>
