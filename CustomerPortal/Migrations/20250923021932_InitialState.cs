@@ -52,7 +52,7 @@ namespace CustomerPortal.Migrations
                 columns: table => new
                 {
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
-                    AccountType = table.Column<int>(type: "int", nullable: false),
+                    AccountType = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "money", nullable: false)
                 },
@@ -121,7 +121,7 @@ namespace CustomerPortal.Migrations
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionType = table.Column<int>(type: "int", nullable: false),
+                    TransactionType = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
                     DestinationAccountNumber = table.Column<int>(type: "int", nullable: true),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
