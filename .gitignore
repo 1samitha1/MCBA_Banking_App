@@ -9,10 +9,8 @@ bin/
 obj/
 *.cache
 *.log
-*.nupkg
-*.snupkg
-*.nuspec
 
 # Rider / VS caches
 .vs/
 *.DotSettings.user
+

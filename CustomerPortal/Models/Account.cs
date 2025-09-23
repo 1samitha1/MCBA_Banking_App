@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using CustomerPortal.Utility;
 
 namespace CustomerPortal.Models;
 
@@ -8,10 +8,11 @@ namespace CustomerPortal.Models;
 public class Account
 {
     [Key]
-    public int AccountNumber { get; set; }               // PK (not identity)
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int AccountNumber { get; set; }            
 
     [Required]
-    public AccountType AccountType { get; set; }         // char(1) via converter
+    public AccountType AccountType { get; set; }         
 
     [Required]
     public int CustomerID { get; set; }
@@ -23,5 +24,4 @@ public class Account
     public Customer Customer { get; set; } = null!;
     public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     public ICollection<BillPay> BillPays { get; set; } = new List<BillPay>();
-
 }

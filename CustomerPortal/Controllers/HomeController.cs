@@ -2,10 +2,12 @@ using System.Diagnostics;
 using CustomerPortal.Data;
 using Microsoft.AspNetCore.Mvc;
 using CustomerPortal.Models;
+using CustomerPortal.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerPortal.Controllers;
 
+[RequireHttps]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -19,19 +21,19 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-      //  return View();
+      return View();
       
       // var accounts =  await mcbacontext.Accounts
       //     .Where(a => a.CustomerID == 2100)
       //     .ToListAsync();
       
-      var accounts = new List<Account>
-      {
-          new Account { AccountNumber = 12345678, AccountType = AccountType.S, Balance = 2500.75m },
-          new Account { AccountNumber = 87654321, AccountType = AccountType.S, Balance = 1250.00m }
-      };
+      // var accounts = new List<Account>
+      // {
+      //     new Account { AccountNumber = 12345678, AccountType = AccountType.S, Balance = 2500.75m },
+      //     new Account { AccountNumber = 87654321, AccountType = AccountType.S, Balance = 1250.00m }
+      // };
 
-      return View(accounts);
+     // return View(accounts);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
