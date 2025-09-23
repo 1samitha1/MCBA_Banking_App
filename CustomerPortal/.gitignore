@@ -1,6 +1,7 @@
 # ignore build files
 **/bin/
 **/obj/
+**/idea/
 
 # NuGet packages
 *.nupkg
