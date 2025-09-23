@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CustomerPortal.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialState : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,7 +52,7 @@ namespace CustomerPortal.Migrations
                 columns: table => new
                 {
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
-                    AccountType = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    AccountType = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     Balance = table.Column<decimal>(type: "money", nullable: false)
                 },
@@ -96,7 +96,7 @@ namespace CustomerPortal.Migrations
                     PayeeID = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),
                     ScheduleTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BillPeriod = table.Column<byte>(type: "tinyint", nullable: false)
+                    BillPeriod = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,7 +121,7 @@ namespace CustomerPortal.Migrations
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionType = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    TransactionType = table.Column<int>(type: "int", nullable: false),
                     AccountNumber = table.Column<int>(type: "int", nullable: false),
                     DestinationAccountNumber = table.Column<int>(type: "int", nullable: true),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
