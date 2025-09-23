@@ -1,9 +1,8 @@
 using System.Diagnostics;
-using CustomerPortal.Data;
+using CustomerPortal.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using CustomerPortal.Models;
-using CustomerPortal.Utility;
-using Microsoft.EntityFrameworkCore;
+using CustomerPortal.ViewModel;
 
 namespace CustomerPortal.Controllers;
 
@@ -11,29 +10,33 @@ namespace CustomerPortal.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly McbaContext mcbacontext;
+    private readonly IAccountRepository accountRepository;
 
-    public HomeController(ILogger<HomeController> logger, McbaContext context)
+    public HomeController(ILogger<HomeController> logger, IAccountRepository accRepository)
     {
         _logger = logger;
-        mcbacontext = mcbacontext;
+        accountRepository = accRepository;
     }
-
     public async Task<IActionResult> Index()
     {
-      return View();
-      
-      // var accounts =  await mcbacontext.Accounts
-      //     .Where(a => a.CustomerID == 2100)
-      //     .ToListAsync();
-      
-      // var accounts = new List<Account>
-      // {
-      //     new Account { AccountNumber = 12345678, AccountType = AccountType.S, Balance = 2500.75m },
-      //     new Account { AccountNumber = 87654321, AccountType = AccountType.S, Balance = 1250.00m }
-      // };
+        var loggedCustomerId = HttpContext.Session.GetInt32("CustomerID");
 
-     // return View(accounts);
+        // no customer logged in
+        if (loggedCustomerId == null) {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var accountsList = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
+        
+        Console.WriteLine(accountsList);
+        var model = accountsList.Select(a => new HomeViewModel
+        {
+            AccountNumber = a.AccountNumber,
+            AccountType = a.AccountType,
+            Balance = a.Balance
+        }).ToList();
+
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
