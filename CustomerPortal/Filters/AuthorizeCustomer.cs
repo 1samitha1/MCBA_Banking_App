@@ -9,8 +9,7 @@ public class AuthorizeCustomer : ActionFilterAttribute
     {
         var session = context.HttpContext.Session;
 
-        if (session.GetInt32("CustomerId") is null &&
-            session.GetString("Role") != "Customer")
+        if (session.GetInt32("CustomerId") is null)
         {
             context.Result = new RedirectToActionResult("Index", "Login", null);
         }

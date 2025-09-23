@@ -31,12 +31,11 @@ builder.Services.AddTransient<WebService>();
 
 //Register service
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(o =>
     {
+        o.Cookie.Name = "CustomerPortal.Session";
         o.IdleTimeout = TimeSpan.FromMinutes(30);
         o.Cookie.HttpOnly = true;
         o.Cookie.IsEssential = true;

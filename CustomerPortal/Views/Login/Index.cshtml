@@ -1,4 +1,6 @@
-﻿@model CustomerPortal.ViewModel.LoginViewModel
+﻿@using CustomerPortal.ViewModel
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model CustomerPortal.ViewModel.LoginViewModel
 @{
    ViewData["Title"] = "Login Page";
    ViewData["HideNav"] = true;
@@ -15,10 +17,13 @@
         <div class="d-flex justify-content-center">
             <div class="card shadow p-4" style="width: 500px;">
                 <h2 class="mb-2 text-center">Login</h2>
+                
+                <!-- show global validation errors -->
+                <div asp-validation-summary="All" class="text-danger"></div>
                 <form asp-controller="Login" asp-action="HandleLogin" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="form-group">
                         <label asp-for="LoginID">Login ID</label>
-                        <!-- need asp-for for inputs -->
                         <input width="30px" type="text" class="form-control" asp-for="LoginID" required/>
                     </div>
 
@@ -37,7 +42,7 @@
     </div>
 </div>
     
-    
+
     
 
     

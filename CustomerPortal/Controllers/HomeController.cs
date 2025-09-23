@@ -6,7 +6,7 @@ using CustomerPortal.ViewModel;
 
 namespace CustomerPortal.Controllers;
 
-[RequireHttps]
+
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
