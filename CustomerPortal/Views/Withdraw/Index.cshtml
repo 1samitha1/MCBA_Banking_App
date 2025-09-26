@@ -1,0 +1,62 @@
+﻿
+@model CustomerPortal.ViewModel.WithdrawViewModel
+@{
+   ViewData["Title"] = "Withdaraw Funds";
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+   <h3 class="mb-3 text-center">Withdraw Funds</h3>
+   <h6 class="text-center text-muted mb-2">Select an account to withdraw from, and enter the withdrawal amount below</h6>
+   
+   <div class="justify-content-center mb-5">
+      <div class="p-4 justify-content-center" style="width: 400px;">
+         <div asp-validation-summary="All" class="text-danger"></div>
+
+         @if (!string.IsNullOrEmpty(Model.Message))
+         {
+            <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") text-center">
+               @Model.Message
+            </div>
+         }
+         <form asp-controller="Withdraw" asp-action="Index" method="post" onsubmit="return confirm('Are you sure you want to process withdrawal?');">
+            <div class="form-group mb-3">
+               <label asp-for="AccountNumber">Account</label>
+               <select asp-for="AccountNumber" class="form-select" required>
+                  <option value="">-- Select account --</option>
+                  @if (Model.Accounts != null && Model.Accounts.Any())
+                  {
+                     @foreach (var acc in Model.Accounts)
+                     {
+                        <option value="@acc.AccountNumber">
+                           @acc.AccountNumber - @acc.AccountType (@acc.Balance.ToString("C"))
+                        </option>
+                     }
+                  }
+                  else
+                  {
+                     <option disabled>No accounts available</option>
+                  }
+               </select>
+            </div>
+
+            <div class="form-group mb-3">
+               <label asp-for="Amount">Amount</label>
+               <input asp-for="Amount" type="number"  min="1" class="form-control" required />
+            </div>
+            <div class="form-group mb-3">
+               <label asp-for="Amount">Comment (Optional)</label>
+               <textarea asp-for="Comment" type="text" class="form-control"> </textarea> 
+            </div>
+
+            <div class="d-grid mt-3 align-items-center justify-content-center">
+               <button type="submit" class="btn btn-primary " asp-controller="Withdraw" asp-action="Withdraw" style="width: 200px;">Withdraw Funds</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+    
+
+    
+
+    
