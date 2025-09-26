@@ -6,7 +6,7 @@ using CustomerPortal.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 namespace CustomerPortal.Controllers;
 
-[RequireHttps]
+//[RequireHttps]
 public class LoginController : Controller
 {
     private readonly IAuthService _authService;

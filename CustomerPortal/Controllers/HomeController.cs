@@ -28,7 +28,6 @@ public class HomeController : Controller
 
         var accountsList = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
         
-        Console.WriteLine(accountsList);
         var model = accountsList.Select(a => new HomeViewModel
         {
             AccountNumber = a.AccountNumber,
