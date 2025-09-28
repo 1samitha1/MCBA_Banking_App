@@ -1,3 +1,4 @@
+using Azure;
 using CustomerPortal.Data.Repository;
 
 namespace CustomerPortal.Services.Impl;
@@ -21,13 +22,17 @@ public class AuthService :IAuthService
         SignInAsync(string loginId, string password)
     {
         var login = await _loginRepository.GetLoginIdAsync(loginId);
-        Console.WriteLine("Here");
-        if (login == null || !_passwordService.Verify(password, login.PasswordHash))
+        if (login == null || !_passwordService.Verify(password, login!.PasswordHash))
         {
             return (false, "Invalid login or password", null, null);
         }
-
+        
         var httpContextSession = _httpContextAccessor.HttpContext!.Session;
+        var httpContext = _httpContextAccessor.HttpContext!;
+        //delete old session cookie
+        httpContext.Response.Cookies.Delete(".CustomerPortal.Session");
+        httpContextSession.Clear();
+        //Start new session
         httpContextSession.SetInt32(CustomerKey, login.CustomerID);
         httpContextSession.SetString(CustomerNameKey, login.Customer?.Name ?? "Customer");
         

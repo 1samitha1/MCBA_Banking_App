@@ -1,0 +1,25 @@
+@model CustomerPortal.ViewModel.DepositViewModel;
+
+@{
+    ViewData["Title"] = "Deposit Successful";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-3 border-success">
+        <div class="card-body text-center">
+            <h2 class="text-success mb-3">Deposit Successful ✅</h2>
+            <p class="lead">
+                You have successfully deposited
+                <strong>@Model.Amount.ToString("C")</strong>
+                into account
+                <strong>@Model.AccountNumber</strong>.
+            </p>
+
+            <div class="mt-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary me-2">
+                    Go to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,12 +10,12 @@ namespace CustomerPortal.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IAccountRepository accountRepository;
+    private readonly IAccountRepository _accountRepository;
 
     public HomeController(ILogger<HomeController> logger, IAccountRepository accRepository)
     {
         _logger = logger;
-        accountRepository = accRepository;
+        _accountRepository = accRepository;
     }
     public async Task<IActionResult> Index()
     {
@@ -26,7 +26,7 @@ public class HomeController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        var accountsList = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
+        var accountsList = await _accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
         
         var model = accountsList.Select(a => new HomeViewModel
         {
