@@ -37,9 +37,17 @@ public class WithdrawController : Controller
     public async Task<IActionResult> Withdraw(decimal amount, int accountNumber, string comment = null) {
         try
         {
+            var loggedCustomerId = HttpContext.Session.GetInt32("CustomerID");
+            
+            // if user not logged in or session not found, redirect to login page
+            if (loggedCustomerId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
            
             decimal withdrawAmount = amount;
             bool isFeeAvailable = false;
+            var model = new WithdrawViewModel();
             // check for the number of transactions for calculate fee
             int numOfWithdrawTrans = await transactionRepository.GetTransactionCount(accountNumber, TransactionType.Withdraw);
             // check if free transactions limit reached
@@ -49,15 +57,23 @@ public class WithdrawController : Controller
                 isFeeAvailable = true;
             }
             
-            var account = await accountRepository.WithdrawFunds(withdrawAmount, accountNumber);
+            var withdrawRes = await accountRepository.WithdrawFunds(withdrawAmount, accountNumber);
 
-            if (account == null)
-                return NotFound("Withdraw failed");
+            if (withdrawRes.Account == null)
+            {
+                model.Message = withdrawRes.Message;
+                model.IsSuccess = false;
+                
+                model.Accounts = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
+                return View("Index", model);
+            }
+
+            var withdrawnAccount = withdrawRes.Account;
 
             // create withdraw transaction
             var transaction = new Transaction
             {
-                AccountNumber = account.AccountNumber,
+                AccountNumber = withdrawnAccount.AccountNumber,
                 TransactionType = TransactionType.Withdraw,
                 Amount = amount,
                 Comments = comment,
@@ -82,13 +98,13 @@ public class WithdrawController : Controller
             }
             
             // show success message and reset inputs
-            var loggedCustomerId = HttpContext.Session.GetInt32("CustomerID");
-            var model = new WithdrawViewModel();
-            model.Message = "Withdrawal successful!";
+            ModelState.Clear();
+            
+            model.Message = withdrawRes.Message;
             model.IsSuccess = true;
             model.Amount = 0;
             model.Comment = "";
-            model.Accounts = await accountRepository.GetCustomerAccounts(account.CustomerID);
+            model.Accounts = await accountRepository.GetCustomerAccounts(withdrawnAccount.CustomerID);
 
             return View("Index", model);
         }

@@ -18,23 +18,29 @@
                @Model.Message
             </div>
          }
-         <form asp-controller="Withdraw" asp-action="Index" method="post" onsubmit="return confirm('Are you sure you want to process withdrawal?');">
+         <form asp-controller="Transfer" asp-action="Index" method="post" onsubmit="return confirm('Are you sure you want to process Transfer?');">
             <div class="form-group mb-3">
-               <label asp-for="CustomerAccounts">Account</label>
-               <select asp-for="CustomerAccounts" class="form-select" required>
-                  <option value="">-- Select account --</option>
-                  @* @if (Model.Accounts != null && Model.Accounts.Any()) *@
-                  @* { *@
-                  @*    @foreach (var acc in Model.Accounts) *@
-                  @*    { *@
-                  @*       <option value="@acc.AccountNumber"> *@
-                  @*          @acc.AccountNumber - @acc.AccountType (@acc.Balance.ToString("C")) *@
-                  @*       </option> *@
-                  @*    } *@
-                  @* } *@
-                  else
+               <label asp-for="SourceAccNumber">Account</label>
+               <select asp-for="SourceAccNumber" class="form-select" required>
+                  <option value="">Select account</option>
+                  @foreach (var acc in Model.CustomerAccounts)
                   {
-                     <option disabled>No accounts available</option>
+                     <option value="@acc.AccountNumber">
+                        @acc.AccountNumber - @acc.AccountType (@acc.Balance.ToString("C"))
+                     </option>
+                  }
+               </select>
+            </div>
+
+            <div class="form-group mb-3">
+               <label asp-for="DestinationAccNumber">Destination Account</label>
+               <select asp-for="DestinationAccNumber" class="form-select" required>
+                  <option value="">Select destination account</option>
+                  @foreach (var acc in Model.DestinationAccounts)
+                  {
+                     <option value="@acc.AccountNumber">
+                        @acc.AccountNumber - @acc.AccountType (@acc.Balance.ToString("C"))
+                     </option>
                   }
                </select>
             </div>
@@ -49,7 +55,7 @@
             </div>
 
             <div class="d-grid mt-3 align-items-center justify-content-center">
-               <button type="submit" class="btn btn-primary " asp-controller="Withdraw" asp-action="Withdraw" style="width: 200px;">Transfer Funds</button>
+               <button type="submit" class="btn btn-primary " asp-controller="Transfer" asp-action="Transfer" style="width: 200px;">Transfer Funds</button>
             </div>
          </form>
       </div>

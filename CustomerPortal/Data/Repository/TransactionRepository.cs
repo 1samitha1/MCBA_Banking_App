@@ -24,7 +24,9 @@ public class TransactionRepository: ITransactionRepository
     public async Task<int> GetTransactionCount(int accountNumber, TransactionType transactionType)
     {
         return await _db.Transactions
-            .Where(t => t.AccountNumber == accountNumber && t.TransactionType == transactionType)
+            .Where(trans => trans.AccountNumber == accountNumber 
+                            && trans.TransactionType == transactionType
+                            && (transactionType != TransactionType.Transfer || trans.DestinationAccount != null)) 
             .CountAsync();
     }
 }

@@ -7,12 +7,12 @@ namespace CustomerPortal.ViewModel;
 public class TransferViewModel
 {
     [Required]
-    [Display(Name = "Source Account")]
-    public int SourceAccountNumber { get; set; } 
+    [Display(Name = "Account")]
+    public int SourceAccNumber { get; set; } 
     
     [Required]
     [Display(Name = "Destination Account")]
-    public int DestinationAccountNumber { get; set; }
+    public int DestinationAccNumber { get; set; }
 
     [Required]
     [Range(1, double.MaxValue, ErrorMessage = "Amount must be greater than zero")]
