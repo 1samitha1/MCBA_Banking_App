@@ -2,8 +2,7 @@ using CustomerPortal.Models;
 using CustomerPortal.Utility;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace CustomerPortal.Data.Repository;
+namespace CustomerPortal.Data.Repository.Impl;
 
 public class TransactionRepository: ITransactionRepository
 {

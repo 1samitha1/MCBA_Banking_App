@@ -1,7 +1,7 @@
 using CustomerPortal.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerPortal.Data.Repository;
+namespace CustomerPortal.Data.Repository.Impl;
 
 public class LoginRepository : ILoginRepository
 {
