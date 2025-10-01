@@ -1,0 +1,119 @@
+﻿
+@model CustomerPortal.ViewModel.CustomerViewModel
+@{
+   ViewData["Title"] = "My Profile";
+}
+
+@section Scripts {
+    <script>
+        document.getElementById("editBtn").addEventListener("click",  () => {
+            // Make fields editable and keep customerId readonly
+            document.querySelectorAll("input").forEach(input => {
+                if (input.id !== "CustomerID") {
+                    //input.removeAttribute("readonly");
+                    input.disabled = false;
+                }
+            });
+
+            // Handle buttons
+            document.getElementById("editBtn").disabled = true;
+            document.getElementById("cancelBtn").removeAttribute("disabled");
+            document.getElementById("saveBtn").removeAttribute("disabled");
+        });
+
+        document.getElementById("cancelBtn").addEventListener("click",  () => {
+            // Make editable fields back to readOnly 
+            document.querySelectorAll("input").forEach(input => {
+                input.disabled = true;
+            });
+
+            // Handle buttons
+            document.getElementById("editBtn").removeAttribute("disabled");
+            document.getElementById("cancelBtn").disabled = true;
+            document.getElementById("saveBtn").disabled = true;
+        });
+    </script>
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+   <h3 class="mb-3 text-center">My Profile</h3>
+   <h6 class="text-center text-muted mb-2">Customer profile</h6>
+   
+   <div class="justify-content-center mb-5">
+      <div class="p-4 justify-content-center" style="width: 500px;">
+         
+         @if (!string.IsNullOrEmpty(Model.Message))
+         {
+            <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") text-center">
+               @Model.Message
+            </div>
+         }
+         
+         @* <form asp-controller="Customer" asp-action="UpdateProfile" method="post" id="profileForm"> *@
+         <form asp-controller="Customer" asp-action="UpdateCustomer" method="post" id="profileForm" onsubmit="return confirm('Are you sure you want to update details?');">   
+             <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CustomerID" class="form-label"></label>
+                    <input asp-for="CustomerID" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control editable" disabled="disabled" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TFN" class="form-label"></label>
+                    <input asp-for="TFN" class="form-control editable" disabled="disabled" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Mobile" class="form-label"></label>
+                    <input asp-for="Mobile" class="form-control editable" disabled="disabled" />
+                </div>
+            </div>
+
+             <div class="row">
+                 <div class="col-md-12 mb-3">
+                     <label asp-for="Address" class="form-label"></label>
+                     <input asp-for="Address" class="form-control editable" disabled="disabled" />
+                 </div>
+             </div>
+             
+             <div class="row">
+                 <div class="col-md-12 mb-3">
+                     <label asp-for="City" class="form-label"></label>
+                     <input asp-for="City" class="form-control editable" disabled="disabled" />
+                 </div>
+             </div>
+
+             <div class="row">
+                 
+                <div class="col-md-6 mb-3">
+                    <label asp-for="State" class="form-label"></label>
+                    <input asp-for="State" class="form-control editable" disabled="disabled" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="PostCode" class="form-label"></label>
+                    <input asp-for="PostCode" class="form-control editable" disabled="disabled" />
+                </div>
+            </div>
+
+            <div class="d-flex gap-4 mt-3 justify-content-center align-items-center">
+                <button type="button" class="btn btn-outline-secondary" id="editBtn">Edit</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn" disabled="disabled">Save</button>
+                <button type="button" class="btn btn-outline-secondary" id="cancelBtn" disabled="disabled">Cancel</button>
+            </div>
+        </form>
+         
+      </div>
+   </div>
+</div>
+    
+
+    
+
+    
