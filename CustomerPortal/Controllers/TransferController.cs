@@ -1,8 +1,10 @@
 using CustomerPortal.Data.Repository;
 using CustomerPortal.Models;
+using CustomerPortal.Services;
 using CustomerPortal.Utility;
 using CustomerPortal.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace CustomerPortal.Controllers;
 
@@ -10,11 +12,14 @@ public class TransferController : Controller
 {
     private readonly IAccountRepository accountRepository;
     private readonly ITransactionRepository transactionRepository;
+    private readonly IAccountService accountService;
     private readonly decimal transferFee;
-    public TransferController(IAccountRepository accRepository, ITransactionRepository transRepository, IConfiguration configuration)
+    public TransferController(IAccountRepository accRepository, ITransactionRepository transRepository, 
+        IConfiguration configuration, IAccountService accService)
     {
         accountRepository = accRepository;
         transactionRepository = transRepository;
+        accountService = accService;
         transferFee = decimal.Parse(configuration["TransactionFees:transfer"]);
     }
     
@@ -28,10 +33,8 @@ public class TransferController : Controller
 
         // customer accounts
         var accountsList = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
-        // destination accounts
-        var allAccounts = await accountRepository.GetBankAccounts();
         
-        var model = new TransferViewModel() { CustomerAccounts = accountsList, DestinationAccounts = allAccounts};
+        var model = new TransferViewModel() { CustomerAccounts = accountsList };
         
         return View(model);
     }
@@ -48,6 +51,7 @@ public class TransferController : Controller
             }
             
             decimal transferAmount = amount;
+            decimal amountToDebit= transferAmount;
             bool isFeeAvailable = false;
             var model = new TransferViewModel();
             
@@ -56,11 +60,10 @@ public class TransferController : Controller
             // check if free transactions limit reached
             if (numOfTransferTrans >= 2)
             {
-                transferAmount = amount + transferFee;
-                isFeeAvailable = true;
+               amountToDebit =+ transferFee;
+               isFeeAvailable = true;
             }
             
-
             // check if user try to transfer for same accounts
             if (SourceAccNumber == DestinationAccNumber)
             {
@@ -68,12 +71,10 @@ public class TransferController : Controller
                 model.IsSuccess = false;
 
                 model.CustomerAccounts = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
-                model.DestinationAccounts = await accountRepository.GetBankAccounts();
-
                 return View("Index", model);
             }
             
-            var transferRes = await accountRepository.TransferFunds(transferAmount, SourceAccNumber, DestinationAccNumber);
+            var transferRes = await accountService.TransferFunds(transferAmount, amountToDebit, SourceAccNumber, DestinationAccNumber);
             
             if (transferRes.Value.Source == null)
             {
@@ -81,8 +82,6 @@ public class TransferController : Controller
                 model.IsSuccess = false;
                 
                 model.CustomerAccounts = await accountRepository.GetCustomerAccounts(loggedCustomerId.Value);
-                model.DestinationAccounts = await accountRepository.GetBankAccounts();
-
                 return View("Index", model);
                 
             }
@@ -138,8 +137,6 @@ public class TransferController : Controller
             model.Amount = 0;
             model.Comment = "";
             model.CustomerAccounts = await accountRepository.GetCustomerAccounts(sourceAcc.CustomerID);
-            model.DestinationAccounts = await accountRepository.GetBankAccounts();
-            
             return View("Index", model);
             
         }
