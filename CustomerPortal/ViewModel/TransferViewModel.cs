@@ -19,7 +19,7 @@ public class TransferViewModel
     public decimal Amount { get; set; }
     
     public List<Account> CustomerAccounts { get; set; } = new List<Account>();
-    public List<Account> DestinationAccounts { get; set; } = new List<Account>();
+    public int DestinationAccount { get; set; }
     
     [DefaultValue(null)]
     public string? Comment { get; set; }

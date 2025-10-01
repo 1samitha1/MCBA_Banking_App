@@ -1,5 +1,6 @@
 using CustomerPortal.Data.Repository;
 using CustomerPortal.Models;
+using CustomerPortal.Services;
 using CustomerPortal.Utility;
 using CustomerPortal.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,15 @@ public class WithdrawController : Controller
 {
     private readonly IAccountRepository accountRepository;
     private readonly ITransactionRepository transactionRepository;
+    private readonly IAccountService accountService;
     private readonly decimal withdrawFee;
 
-    public WithdrawController(IAccountRepository accRepository, ITransactionRepository transRepository, IConfiguration configuration)
+    public WithdrawController(IAccountRepository accRepository, ITransactionRepository transRepository, 
+        IConfiguration configuration, IAccountService accService)
     {
         accountRepository = accRepository;
         transactionRepository = transRepository;
+        accountService = accService;
         withdrawFee = decimal.Parse(configuration["TransactionFees:withdrawal"]);
     }
     public async Task<IActionResult> Index() {
@@ -57,7 +61,7 @@ public class WithdrawController : Controller
                 isFeeAvailable = true;
             }
             
-            var withdrawRes = await accountRepository.WithdrawFunds(withdrawAmount, accountNumber);
+            var withdrawRes = await accountService.WithdrawFunds(withdrawAmount, accountNumber);
 
             if (withdrawRes.Account == null)
             {
