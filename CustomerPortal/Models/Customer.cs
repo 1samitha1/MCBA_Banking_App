@@ -10,7 +10,7 @@ public class Customer
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int CustomerID { get; set; }                  // PK (not identity in SQL)
+    public int CustomerID { get; set; } 
 
     [Required, StringLength(50)]
     public string Name { get; set; } = string.Empty;
