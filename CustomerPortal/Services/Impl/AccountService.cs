@@ -45,12 +45,12 @@ public class AccountService: IAccountService
         if (amount <= 0)
             return (null, null, "Transfer failed! Amount must be greater than zero.");
 
-        if (sourceAcc.Balance < amount)
+        if (sourceAcc.Balance < amountToDebit)
             return (null, null, "Transfer failed! Insufficient funds available in account.");
         
         sourceAcc.Balance -= amountToDebit;
         destAcc.Balance += amount;
-
+        
         // Save changes for accounts
         await _accountRepository.UpdateAccount(sourceAcc);
         await _accountRepository.UpdateAccount(destAcc);
