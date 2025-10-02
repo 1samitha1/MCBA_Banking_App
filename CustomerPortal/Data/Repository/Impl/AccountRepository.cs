@@ -36,4 +36,10 @@ public class AccountRepository:  IAccountRepository
         _db.Accounts.Update(account);
         await _db.SaveChangesAsync();
     }
+
+    public async Task<Account?> GetAccountAsync(int accountNumber)
+    {
+        return await _db.Accounts.Where(account => account.AccountNumber == accountNumber)
+            .FirstOrDefaultAsync();
+    }
 }

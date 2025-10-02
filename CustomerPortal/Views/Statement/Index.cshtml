@@ -1,0 +1,46 @@
+@model CustomerPortal.ViewModel.Statement.SelectStatementVm
+@{
+    ViewData["Title"] = "My statement";
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+    <h3 class="mb-3 text-center">My Statement</h3>
+    <h6 class="text-center text-muted mb-2">Select an account</h6>
+   
+    <div class="justify-content-center mb-5">
+        <div class="p-4 justify-content-center" style="width: 400px;">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <form asp-controller="Statement" asp-action="HandleStatement" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group mb-3">
+                    <label for="SelectedAccountNumber" class="form-label">Account</label>
+                    <select asp-for="SelectedAccountNumber" class="form-select" required>
+                        <option value="">Choose account</option>
+                        @if (Model.Accounts != null && Model.Accounts.Any())
+                        {
+                            foreach (var acc in Model.Accounts)
+                            {
+                                <option value="@acc.AccountNumber">
+                                    @acc.AccountNumber - @acc.AccountType
+                                </option>
+                            }
+                        }
+                        else
+                        {
+                            <option disabled>No accounts available</option>
+                        }
+                    </select>
+                    <span asp-validation-for="SelectedAccountNumber" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid mt-3 align-items-center justify-content-center">
+                    <button type="submit" class="btn btn-primary" style="width: 200px;">
+                        Show Statements
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

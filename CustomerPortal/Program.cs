@@ -1,3 +1,4 @@
+using System.Globalization;
 using CustomerPortal.Data;
 using CustomerPortal.Data.Repository;
 using CustomerPortal.Data.Repository.Impl;
@@ -9,8 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
+var au = new CultureInfo("en-AU");
+CultureInfo.DefaultThreadCurrentCulture = au;
+CultureInfo.DefaultThreadCurrentUICulture = au;
 // Get Configuration Strings
 var dbConnectionString = builder.Configuration.GetConnectionString("dbConnectionString");
 if (string.IsNullOrWhiteSpace(dbConnectionString)) {
