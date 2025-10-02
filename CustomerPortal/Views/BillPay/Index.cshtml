@@ -1,0 +1,79 @@
+﻿
+@model CustomerPortal.ViewModel.BillPayListViewModel
+@{
+   ViewData["Title"] = "Bill Pay";
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+   <h3 class="mb-3 text-center">Bill Payments</h3>
+   <h6 class="text-center text-muted mb-2">description</h6>
+   
+   <div class="justify-content-center mb-5">
+      <div class="p-4 justify-content-center" style="width: 400px;">
+         <div asp-validation-summary="All" class="text-danger"></div>
+
+         @* @if (!string.IsNullOrEmpty(Model.Message)) *@
+         @* { *@
+         @*    <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") text-center"> *@
+         @*       @Model.Message *@
+         @*    </div> *@
+         @* } *@
+        
+         <table class="table table-bordered table-striped shadow-sm">
+                <thead class="table-primary">
+                    <tr>
+                        <th>BillPay ID</th>
+                        <th>Account</th>
+                        <th>Payee</th>
+                        <th>Amount</th>
+                        <th>Period</th>
+                        <th>Scheduled Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model.Bills.Any())
+                {
+                    foreach (var bill in Model.Bills)
+                    {
+                        <tr>
+                            <td>@bill.BillPayID</td>
+                            <td>@bill.AccountNumber - @bill.AccountName</td>
+                            <td>@bill.PayeeID</td>
+                            <td>@bill.Amount.ToString("C")</td>
+                            <td>@bill.BillPeriod</td>
+                            <td>@bill.LocalScheduleTime</td>
+                            <td>
+                                <span class="badge bg-@(bill.Status == "Pending" ? "warning" : bill.Status == "Completed" ? "success" : "danger")">
+                                    @bill.Status
+                                </span>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@bill.BillPayID" class="btn btn-sm btn-primary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@bill.BillPayID" class="btn btn-sm btn-danger">Cancel</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No bill payments found.</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <div class="text-center mt-4">
+                <a asp-action="Create" class="btn btn-success">Schedule New Bill</a>
+            </div>
+         
+      </div>
+   </div>
+</div>
+    
+
+    
+
+    
