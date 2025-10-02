@@ -1,0 +1,94 @@
+@using System.Globalization
+@model CustomerPortal.ViewModel.Statement.SingleStatementPageViewModel
+
+@{
+    ViewData["Title"] = "My Statements";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">My Statements</h2>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-3"><strong>Account Number:</strong> @Model.AccountNumber</div>
+        <div class="col-md-3"><strong>Type:</strong> @Model.AccountType</div>
+        <div class="col-md-3"><strong>Current Balance:</strong> @Model.CurrentBalance.ToString("C")</div>
+        <div class="col-md-3"><strong>Available Balance:</strong> @Model.AvailableBalance.ToString("C")</div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="m-0">Transactions</h5>
+        <div>
+            <a class="btn btn-outline-secondary btn-sm" asp-controller="Statements" asp-action="Print" asp-route-accountNumber="@Model.AccountNumber" target="_blank">
+                Print Transaction History
+            </a>
+        </div>
+    </div>
+    
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Transaction ID</th>
+                <th>Type</th>
+                <th>Account</th>
+                <th>Destination</th>
+                <th class="text-end">Amount</th>
+                <th>Transaction Time</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (!Model.TransactionRows.Any())
+        {
+            <tr><td colspan="7" class="text-center text-muted">No transactions yet.</td></tr>
+        }
+        else
+        {
+            foreach (var t in Model.TransactionRows)
+            {
+                <tr>
+                    <td>@t.TransactionID</td>
+                    <td>@t.TransactionType</td>
+                    <td>@t.AccountNumber</td>
+                    <td>@(t.DestinationAccountNumber?.ToString() ?? "-")</td>
+                    <td class="text-end">@t.Amount.ToString("C")</td>
+                    <td>
+                        @{
+                            // Convert from UTC to format: DD/MM/YYYY hh:mm AM/PM
+                            var local = TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(t.TransactionTimeUtc, DateTimeKind.Utc),
+                                                                       TimeZoneInfo.Local);
+                        }
+                        @local.ToString("dd'/'MM'/'yyyy hh':'mm tt")
+                    </td>
+                    <td>@(string.IsNullOrWhiteSpace(t.Comment) ? "-" : t.Comment)</td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+    
+    <nav aria-label="Transactions pagination">
+        <ul class="pagination">
+            <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                   asp-route-accountNumber="@Model.AccountNumber"
+                   asp-route-page="@(Model.PageNumber - 1)">Previous</a>
+            </li>
+    
+            @for (int p = 1; p <= Model.TotalPages; p++)
+            {
+                <li class="page-item @(p == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-route-accountNumber="@Model.AccountNumber"
+                       asp-route-page="@p">@p</a>
+                </li>
+            }
+    
+            <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-route-accountNumber="@Model.AccountNumber"
+                   asp-route-page="@(Model.PageNumber + 1)">Next</a>
+            </li>
+        </ul>
+        <div class="text-muted">Showing @Model.TransactionRows.Count of @Model.TotalTransactions transactions.</div>
+    </nav>
+</div>

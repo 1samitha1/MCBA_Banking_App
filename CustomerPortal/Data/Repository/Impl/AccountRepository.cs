@@ -64,4 +64,10 @@ public class AccountRepository:  IAccountRepository
         await _db.SaveChangesAsync();
         return (Source: sourceAcc, Destination: destAcc, Message: "Transfer Successful!"); 
     }
+
+    public async Task<Account?> GetAccountAsync(int accountNumber)
+    {
+        return await _db.Accounts.Where(account => account.AccountNumber == accountNumber)
+            .FirstOrDefaultAsync();
+    }
 }
