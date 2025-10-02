@@ -11,11 +11,14 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IAccountRepository _accountRepository;
+    private readonly ITransactionRepository _transactionRepository;
 
-    public HomeController(ILogger<HomeController> logger, IAccountRepository accRepository)
+    public HomeController(ILogger<HomeController> logger, IAccountRepository accRepository,
+        ITransactionRepository transactionRepository)
     {
         _logger = logger;
         _accountRepository = accRepository;
+        _transactionRepository = transactionRepository;
     }
     public async Task<IActionResult> Index()
     {

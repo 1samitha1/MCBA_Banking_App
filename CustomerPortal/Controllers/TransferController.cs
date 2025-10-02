@@ -51,7 +51,7 @@ public class TransferController : Controller
             }
             
             decimal transferAmount = amount;
-            decimal amountToDebit= transferAmount;
+            decimal amountToDebit = transferAmount;
             bool isFeeAvailable = false;
             var model = new TransferViewModel();
             
@@ -60,7 +60,7 @@ public class TransferController : Controller
             // check if free transactions limit reached
             if (numOfTransferTrans >= 2)
             {
-               amountToDebit =+ transferFee;
+               amountToDebit += transferFee;
                isFeeAvailable = true;
             }
             
