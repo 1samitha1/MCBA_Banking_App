@@ -45,5 +45,11 @@ public class LoginController : Controller
         return RedirectToAction("Index","Home");
     }
 
+    public IActionResult HandleLogout()
+    {
+        var model = new LoginViewModel();
+        _authService.SignOut();
+        return View("Index", model);
+    }
     
 }

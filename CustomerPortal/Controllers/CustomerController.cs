@@ -8,10 +8,12 @@ namespace CustomerPortal.Controllers;
 public class CustomerController: Controller
 {
     private readonly ICustomerService _customerService;
+    private readonly IPasswordService _passwordService;
     
-    public CustomerController(ICustomerService customerService)
+    public CustomerController(ICustomerService customerService, IPasswordService passwordService)
     {
         _customerService = customerService;
+        _passwordService = passwordService;
     }
     
     public async Task<IActionResult> Index() {
@@ -24,18 +26,7 @@ public class CustomerController: Controller
         
         var customer = await _customerService.GetCustomer(loggedCustomerId.Value);
 
-        var model = new CustomerViewModel()
-        {
-            CustomerID = customer.CustomerID,
-            Name = customer.Name,
-            TFN = customer.TFN,
-            Address = customer.Address,
-            City = customer.City,
-            State = customer.State,
-            PostCode = customer.PostCode,
-            Mobile = customer.Mobile
-        };
-
+        var model = new CustomerViewModel(customer);
         return View(model);
     }
     
@@ -43,7 +34,8 @@ public class CustomerController: Controller
     public async Task<IActionResult> UpdateCustomer(Customer customerData)
     {
         var loggedCustomerId = HttpContext.Session.GetInt32("CustomerID");
-        var model = new CustomerViewModel();
+        var customer = await _customerService.GetCustomer(loggedCustomerId.Value);
+        var model = new CustomerViewModel(customer);
 
         // update customer data
         var updateResult = await _customerService.UpdateCustomer(loggedCustomerId.Value, customerData);
@@ -57,18 +49,43 @@ public class CustomerController: Controller
 
         // bind new data with view model
         model.IsSuccess = true;
-        model.CustomerID = updateResult.CustomerID;
-        model.Name = updateResult.Name;
-        model.TFN = updateResult.TFN;
-        model.Address = updateResult.Address;
-        model.City = updateResult.City;
-        model.State = updateResult.State;
-        model.PostCode = updateResult.PostCode;
-        model.Mobile = updateResult.Mobile;
         model.Message = "Customer Data update Success";
         
         return View("Index", model);
-
-        //return RedirectToAction("Index"); 
+        
     }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+    {
+        var loggedCustomerId = HttpContext.Session.GetInt32("CustomerID");
+        var customer = await _customerService.GetCustomer(loggedCustomerId.Value);
+
+        // verify password and password confirmation
+        if (newPassword != confirmPassword)
+        {
+            var model = new CustomerViewModel(customer)
+            {
+                PasswordChangeMessage = "New password and password confirmation do not match",
+                IsPasswordChangeSuccess = false
+            };
+            return View("Index", model);
+        }
+        
+        // change password
+        var (isSuccess, message) = await _passwordService.ChangePassword(loggedCustomerId.Value, currentPassword, newPassword);
+        
+        // update view
+        var viewModel = new CustomerViewModel(customer)
+        {
+            PasswordChangeMessage = message,
+            IsPasswordChangeSuccess = isSuccess,
+            CurrentPassword = string.Empty,
+            NewPassword = string.Empty,
+            ConfirmPassword = string.Empty
+        };
+
+        return View("Index", viewModel);
+    }
+    
 }
