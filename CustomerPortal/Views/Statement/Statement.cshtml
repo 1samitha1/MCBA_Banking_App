@@ -18,8 +18,9 @@
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h5 class="m-0">Transactions</h5>
         <div>
-            <a class="btn btn-outline-secondary btn-sm" asp-controller="Statements" asp-action="Print" asp-route-accountNumber="@Model.AccountNumber" target="_blank">
-                Print Transaction History
+            <a class="btn btn-outline-secondary btn-sm" asp-controller="Statement" asp-action="Print" 
+               asp-route-accountNumber="@Model.AccountNumber" target="_blank">
+                Print Transactions
             </a>
         </div>
     </div>
@@ -70,25 +71,33 @@
         <ul class="pagination">
             <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
                 <a class="page-link"
+                   asp-controller="Statement"
+                   asp-action="Statement"
                    asp-route-accountNumber="@Model.AccountNumber"
                    asp-route-page="@(Model.PageNumber - 1)">Previous</a>
             </li>
-    
+
             @for (int p = 1; p <= Model.TotalPages; p++)
             {
                 <li class="page-item @(p == Model.PageNumber ? "active" : "")">
                     <a class="page-link"
+                       asp-controller="Statement"
+                       asp-action="Statement"
                        asp-route-accountNumber="@Model.AccountNumber"
                        asp-route-page="@p">@p</a>
                 </li>
             }
-    
+
             <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
                 <a class="page-link"
+                   asp-controller="Statement"
+                   asp-action="Statement"
                    asp-route-accountNumber="@Model.AccountNumber"
                    asp-route-page="@(Model.PageNumber + 1)">Next</a>
             </li>
         </ul>
-        <div class="text-muted">Showing @Model.TransactionRows.Count of @Model.TotalTransactions transactions.</div>
+        <div class="text-muted">
+            Showing @Model.TransactionRows.Count of @Model.TotalTransactions transactions.
+        </div>
     </nav>
 </div>

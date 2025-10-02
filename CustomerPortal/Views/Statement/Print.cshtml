@@ -1,0 +1,97 @@
+@using System.Globalization
+@model CustomerPortal.ViewModel.Statement.SingleStatementPageViewModel
+@{
+    Layout = null; // clean print page
+    var culture = CultureInfo.CurrentCulture;
+    var fileTitle = $"TransactionHistory_Account_{Model.AccountNumber}";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@fileTitle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        /* Simple, professional print styling */
+        body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 24px; color: #111; }
+        h1, h2, h3 { margin: 0 0 8px; }
+        .muted { color: #666; }
+        .grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px 16px; margin: 12px 0 16px; }
+        .card { padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 16px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; font-size: 12px; }
+        th { background: #f7f7f7; text-align: left; }
+        .text-end { text-align: right; }
+        .toolbar { text-align: right; margin-bottom: 12px; }
+        
+    </style>
+</head>
+<body>
+    <div class="toolbar d-print-none">
+        <button onclick="window.print()">Print</button>
+        <button onclick="window.close()">Close</button>
+    </div>
+
+    <h2>My Statements</h2>
+    <div class="muted">Generated @DateTime.Now.ToString("dd/MM/yyyy hh:mm tt")</div>
+
+    <div class="card">
+        <div class="grid">
+            <div><strong>Account Number:</strong> @Model.AccountNumber</div>
+            <div><strong>Type:</strong> @Model.AccountType</div>
+            <div><strong>Current Balance:</strong> @Model.CurrentBalance.ToString("C", culture)</div>
+            <div><strong>Available Balance:</strong> @Model.AvailableBalance.ToString("C", culture)</div>
+        </div>
+    </div>
+
+    <h4>Transactions</h4>
+
+    @if (Model.TransactionRows == null || !Model.TransactionRows.Any())
+    {
+        <div class="card muted">No transactions yet.</div>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Type</th>
+                    <th>Account</th>
+                    <th>Destination</th>
+                    <th class="text-end">Amount</th>
+                    <th>Date/Time</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var t in Model.TransactionRows)
+            {
+                var local = TimeZoneInfo.ConvertTimeFromUtc(
+                    DateTime.SpecifyKind(t.TransactionTimeUtc, DateTimeKind.Utc),
+                    TimeZoneInfo.Local);
+
+                <tr>
+                    <td>@t.TransactionID</td>
+                    <td>@t.TransactionType</td>
+                    <td>@t.AccountNumber</td>
+                    <td>@(t.DestinationAccountNumber?.ToString() ?? "-")</td>
+                    <td class="text-end">@t.Amount.ToString("C", culture)</td>
+                    <td>@local.ToString("dd/MM/yyyy hh:mm tt")</td>
+                    <td>@(string.IsNullOrWhiteSpace(t.Comment) ? "-" : t.Comment)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="muted" style="margin-top:8px">
+            Total transactions: @Model.TotalTransactions
+        </div>
+    }
+
+    <script>
+        // Auto-open print on load so users can save as PDF with the title as filename
+        window.addEventListener('load', function () { window.print(); });
+    </script>
+</body>
+</html>
