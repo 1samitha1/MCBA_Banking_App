@@ -31,23 +31,15 @@
                   }
                </select>
             </div>
-
+            
             <div class="form-group mb-3">
                <label asp-for="DestinationAccNumber">Destination Account</label>
-               <select asp-for="DestinationAccNumber" class="form-select" required>
-                  <option value="">Select destination account</option>
-                  @foreach (var acc in Model.DestinationAccounts)
-                  {
-                     <option value="@acc.AccountNumber">
-                        @acc.AccountNumber - @acc.AccountType (@acc.Balance.ToString("C"))
-                     </option>
-                  }
-               </select>
+               <input asp-for="DestinationAccNumber" type="number" value="" class="form-control" required />
             </div>
 
             <div class="form-group mb-3">
                <label asp-for="Amount">Transfer Amount</label>
-               <input asp-for="Amount" type="number"  min="1" class="form-control" required />
+               <input asp-for="Amount" type="number" value="" min="1" class="form-control" required />
             </div>
             <div class="form-group mb-3">
                <label asp-for="Amount">Comment (Optional)</label>
