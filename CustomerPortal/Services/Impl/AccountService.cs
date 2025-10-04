@@ -57,4 +57,10 @@ public class AccountService: IAccountService
 
         return (sourceAcc, destAcc, "Transfer Successful!");
     }
+
+    // get accounts belongs to the customer
+    public async Task<List<Account>> GetCustomerAccounts(int customerId)
+    {
+        return await _accountRepository.GetCustomerAccounts(customerId);
+    }
 }
