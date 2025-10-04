@@ -55,6 +55,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBillPayRepository, BillPayRepository>();
+builder.Services.AddScoped<IPayeeRepository, PayeeRepository>();
 
 var app = builder.Build();
 
