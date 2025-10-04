@@ -1,5 +1,6 @@
 using CustomerPortal.Data.Repository;
 using CustomerPortal.Models;
+using CustomerPortal.Utility;
 
 namespace CustomerPortal.Services.Impl;
 
@@ -49,5 +50,23 @@ public class BillPayService: IBillPayService
         }
         
         return (true, "Bill removal succeeded");
+    }
+
+    public async Task<(bool success, string msg)> UpdateBillStatus(int billPayId, BillStatus status)
+    {
+        var updateRes = await _billPayRepository.UpdateBillStatus(billPayId, status);
+        
+        if (!updateRes)
+        {
+            return (false,"Bill removal failed");
+        }
+        
+        return (true, "Bill removal succeeded");
+    }
+
+    //processing Due bills for background service
+    public async Task ProcessDueBills()
+    {
+        await _billPayRepository.ProcessDueBills();
     }
 }

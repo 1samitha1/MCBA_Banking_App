@@ -16,8 +16,7 @@ public class BillPayViewModel
 
     public DateTime ScheduleTimeUtc { get; set; }
 
-    public string LocalScheduleTime => ScheduleTimeUtc.ToLocalTime().ToString("g"); 
-    // formatted local time for display
+    public string LocalScheduleTime => ScheduleTimeUtc.ToString("g"); 
 
     public BillStatus Status { get; set; }
 }

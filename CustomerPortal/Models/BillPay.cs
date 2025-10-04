@@ -24,6 +24,9 @@ public class BillPay
     [Required, DefaultValue(BillStatus.Pending)] 
     public BillStatus Status { get; set; }
     
+    [DefaultValue(null)] 
+    public string? ErrorMessage { get; set; }
+    
     public Account Account { get; set; } = null!;
     public Payee Payee { get; set; } = null!;
 }

@@ -1,4 +1,5 @@
 using CustomerPortal.Models;
+using CustomerPortal.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace CustomerPortal.Data.Repository.Impl;
@@ -40,5 +41,43 @@ public class BillPayRepository: IBillPayRepository
         _db.BillPay.Remove(bill);
         await _db.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<bool> UpdateBillStatus(int billPayId, BillStatus status)
+    {
+        var billPay = await _db.BillPay.FindAsync(billPayId);
+        if (billPay == null) return false;
+
+        billPay.Status = status;
+
+        await _db.SaveChangesAsync();
+        return true;
+    }
+    
+    public async  Task ProcessDueBills()
+    {
+        var now = DateTime.Now;;
+        var dueBills = await _db.BillPay
+            .Where(b => b.Status == BillStatus.Pending && b.ScheduleTimeUtc <= now)
+            .ToListAsync();
+
+        foreach (var bill in dueBills)
+        {
+            // check if there enough balance for deduction
+            var account = await _db.Accounts.FindAsync(bill.AccountNumber);
+            if (account != null && account.Balance >= bill.Amount)
+            {
+                account.Balance -= bill.Amount;
+                bill.Status = BillStatus.Success;
+                bill.ErrorMessage = null;
+            }
+            else
+            { 
+                bill.Status = BillStatus.Failed;
+                bill.ErrorMessage = "Insufficient balance";
+            }
+        }
+
+        await _db.SaveChangesAsync();
     }
 }
