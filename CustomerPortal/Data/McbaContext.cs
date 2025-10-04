@@ -34,6 +34,10 @@ public class McbaContext : DbContext
             v => ((char)v).ToString(),
             v => (BillPeriod)v[0]);
         
+        var billStatusConv = new ValueConverter<BillStatus, string>(
+            v => ((char)v).ToString(),
+            v => (BillStatus)v[0]);
+        
         
         //set relationships (just to verify for EF core)
         modelBuilder.Entity<Login>()
@@ -83,6 +87,16 @@ public class McbaContext : DbContext
         modelBuilder.Entity<Transaction>()
             .Property(t => t.TransactionType)
             .HasConversion(txnTypeConv)
+            .HasMaxLength(1);
+        
+        modelBuilder.Entity<BillPay>()
+            .Property(b => b.BillPeriod)
+            .HasConversion(billPeriodConv)
+            .HasMaxLength(1);
+        
+        modelBuilder.Entity<BillPay>()
+            .Property(b => b.Status)
+            .HasConversion(billStatusConv)
             .HasMaxLength(1);
     }
     

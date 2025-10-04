@@ -4,6 +4,7 @@ using CustomerPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerPortal.Migrations
 {
     [DbContext(typeof(McbaContext))]
-    partial class McbaContextModelSnapshot : ModelSnapshot
+    [Migration("20251003115434_AddBillPayStatus")]
+    partial class AddBillPayStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,10 +62,8 @@ namespace CustomerPortal.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("Money");
 
-                    b.Property<string>("BillPeriod")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                    b.Property<int>("BillPeriod")
+                        .HasColumnType("int");
 
                     b.Property<int>("PayeeID")
                         .HasColumnType("int");
@@ -70,10 +71,8 @@ namespace CustomerPortal.Migrations
                     b.Property<DateTime>("ScheduleTimeUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("BillPayID");
 

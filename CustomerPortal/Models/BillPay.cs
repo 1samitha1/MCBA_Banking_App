@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CustomerPortal.Utility;
@@ -19,6 +20,9 @@ public class BillPay
     public DateTime ScheduleTimeUtc { get; set; }
     [Required]
     public BillPeriod BillPeriod { get; set; }
+    
+    [Required, DefaultValue(BillStatus.Pending)] 
+    public BillStatus Status { get; set; }
     
     public Account Account { get; set; } = null!;
     public Payee Payee { get; set; } = null!;
