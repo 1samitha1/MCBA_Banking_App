@@ -57,6 +57,9 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBillPayRepository, BillPayRepository>();
 builder.Services.AddScoped<IPayeeRepository, PayeeRepository>();
 
+//background service for Bill Pay
+builder.Services.AddHostedService<BillPayBackgroundService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

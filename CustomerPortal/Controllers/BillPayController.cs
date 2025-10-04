@@ -146,4 +146,33 @@ public class BillPayController: Controller
 
         return View("Index", model);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Retry(int id)
+    {
+        var loggedCustomerId = _authService.CurrentCustomerId();
+        
+        var (success, msg) = await _billPayService.UpdateBillStatus(id, BillStatus.Pending);
+        
+        var bills = await _billPayService.GetBills(loggedCustomerId.Value);
+        
+        var model = new BillPayListViewModel
+        {
+            Bills = bills.Select(b => new BillPayViewModel
+            {
+                BillPayID = b.BillPayID,
+                AccountNumber = b.AccountNumber,
+                PayeeID = b.PayeeID,
+                Amount = b.Amount,
+                BillPeriod = b.BillPeriod,
+                ScheduleTimeUtc = b.ScheduleTimeUtc,
+                Status = b.Status
+            }).ToList(),
+
+            Message = "",
+            IsSuccess = success
+        };
+        
+        return View("Index", model);
+    }
 }

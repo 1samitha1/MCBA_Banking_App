@@ -7,7 +7,7 @@
 
 <div class="text-center justify-content-center align-items-center d-flex flex-column">
    <h3 class="mb-3 text-center">Bill Payments</h3>
-   <h6 class="text-center text-muted mb-2">description</h6>
+   <h6 class="text-center text-muted mb-2">Schedules bill payments with their statuses. Click the "Create" button to add a new bill schedule.</h6>
    
    <div class="justify-content-center mb-5">
       <div class="p-4 justify-content-center" style="width: 100%;">
@@ -51,12 +51,19 @@
                                 </span>
                             </td>
                             <td>
-                                <a asp-action="Remove" asp-route-id="@bill.BillPayID" 
-                                   class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this bill payment schedule?');">Cancel</a>
-                                @if (bill.Status == BillStatus.Failed)
+                                @if (bill.Status == BillStatus.Pending)
                                 {
-                                    <a asp-action="Retry" asp-route-id="@bill.BillPayID" 
-                                       class="btn btn-sm btn-outline-success">Retry</a>
+                                    <a asp-action="Remove" asp-route-id="@bill.BillPayID"
+                                       class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this bill payment schedule?');">Cancel</a>
+                                }
+                                else if (bill.Status == BillStatus.Failed)
+                                {
+                                    <a asp-action="Retry" asp-route-id="@bill.BillPayID"
+                                       class="btn btn-sm btn-outline-success" onclick="return confirm('Are you sure you want to restart bill schedule?');">Retry</a>
+                                }
+                                else
+                                {
+                                    <span>N/A</span>
                                 }
                             </td>
                         </tr>
@@ -78,8 +85,3 @@
       </div>
    </div>
 </div>
-    
-
-    
-
-    
