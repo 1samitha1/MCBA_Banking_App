@@ -67,6 +67,9 @@ namespace CustomerPortal.Migrations
                     b.Property<string>("ErrorMessage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsBlocked")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PayeeID")
                         .HasColumnType("int");
 

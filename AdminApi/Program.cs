@@ -7,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<McbaContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CustomerMcbaContext")));
+{
+    var cs = builder.Configuration.GetConnectionString("dbConnectionString")
+             ?? throw new InvalidOperationException("Missing ConnectionStrings:dbConnectionString.");
+    options.UseSqlServer(cs);
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
