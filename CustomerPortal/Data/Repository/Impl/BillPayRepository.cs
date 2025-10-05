@@ -49,6 +49,7 @@ public class BillPayRepository: IBillPayRepository
         if (billPay == null) return false;
 
         billPay.Status = status;
+        billPay.ErrorMessage = null;
 
         await _db.SaveChangesAsync();
         return true;
