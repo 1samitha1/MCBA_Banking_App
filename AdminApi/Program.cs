@@ -1,3 +1,5 @@
+using AdminApi.Data.DataManager;
+using AdminApi.Data.Repository;
 using CustomerPortal.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<McbaContext>(options =>
 {
-    var cs = builder.Configuration.GetConnectionString("dbConnectionString")
+    var cs = builder.Configuration.GetConnectionString("CustomerMcbaContext")
              ?? throw new InvalidOperationException("Missing ConnectionStrings:dbConnectionString.");
     options.UseSqlServer(cs);
 });
+builder.Services.AddScoped<IPayeeRepository, PayeeManager>();
+builder.Services.AddScoped<IBillPayRepository, BillPayManager>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

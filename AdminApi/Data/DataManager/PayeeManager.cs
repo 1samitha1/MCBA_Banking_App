@@ -26,5 +26,20 @@ public class PayeeManager : IPayeeRepository
     {
         _db.Payees.Update(payee);
         return _db.SaveChangesAsync(ct);
-    } 
+    }
+
+    public async Task CreatePayeeAsync(PayeeDto payeeDto, CancellationToken ct = default)
+    {
+        _db.Payees.AddAsync(new Payee()
+        {
+            Name = payeeDto.Name,
+            Address = payeeDto.Address,
+            City = payeeDto.City,
+            State = payeeDto.State,
+            Phone = payeeDto.Phone,
+            PostCode = payeeDto.Postcode
+        }, ct);
+        
+         await _db.SaveChangesAsync(ct);
+    }
 }
