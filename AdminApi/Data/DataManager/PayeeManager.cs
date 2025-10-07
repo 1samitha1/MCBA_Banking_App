@@ -30,7 +30,7 @@ public class PayeeManager : IPayeeRepository
 
     public async Task CreatePayeeAsync(PayeeDto payeeDto, CancellationToken ct = default)
     {
-        _db.Payees.AddAsync(new Payee()
+        await _db.Payees.AddAsync(new Payee()
         {
             Name = payeeDto.Name,
             Address = payeeDto.Address,

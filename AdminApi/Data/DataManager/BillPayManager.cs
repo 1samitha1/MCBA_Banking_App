@@ -29,5 +29,6 @@ public class BillPayManager : IBillPayRepository
         var entity = await _db.BillPay.SingleOrDefaultAsync(b => b.BillPayID == id, ct)
                      ?? throw new KeyNotFoundException($"BillPay {id} not found");
         entity.IsBlocked = block;
+        await _db.SaveChangesAsync(ct);
     }
 }

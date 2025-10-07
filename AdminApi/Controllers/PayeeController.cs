@@ -39,20 +39,12 @@ public class PayeeController : ControllerBase
     }
     //api/Payee
     [HttpPost]
-    public async void AddPayee([FromBody]PayeeDto payeeDto)
+    public async Task<IActionResult> CreatePayee([FromBody]PayeeDto payeeDto, CancellationToken ct)
     {
-        Console.WriteLine("AddPayee");
-        if (payeeDto is null) BadRequest("Payee cannot be empty");
-        try
-        {
-            await _payeeRepository.CreatePayeeAsync(payeeDto);
-            Ok("Payee created");
-        }
-        catch (Exception ex)
-        {
-            BadRequest(ex.Message);
-            Console.WriteLine(ex.Message);
-        }
+        Console.WriteLine(payeeDto.Name);
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        await _payeeRepository.CreatePayeeAsync(payeeDto,ct);
+        return Created("", new{message="Payee Created"});
         
         
     }
