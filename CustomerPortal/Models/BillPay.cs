@@ -29,4 +29,6 @@ public class BillPay
     
     public Account Account { get; set; } = null!;
     public Payee Payee { get; set; } = null!;
+    [Required, DefaultValue(false)]
+    public bool IsBlocked { get; set; }
 }
