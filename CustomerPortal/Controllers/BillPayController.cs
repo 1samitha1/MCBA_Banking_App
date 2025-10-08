@@ -37,11 +37,12 @@ public class BillPayController: Controller
             {
                 BillPayID = b.BillPayID,
                 AccountNumber = b.AccountNumber,
-                PayeeID = b.PayeeID,
+                PayeeID = b.Payee.Name,
                 Amount = b.Amount,
                 BillPeriod = b.BillPeriod,
                 ScheduleTimeUtc = b.ScheduleTimeUtc,
-                Status = b.Status
+                Status = b.Status,
+                ErrorMessage = b.ErrorMessage,
             }).ToList()
         };
 
@@ -61,12 +62,14 @@ public class BillPayController: Controller
         
         var model = new BillCreateViewModel()
         {
+            // add account list
             Accounts = customerAccounts.Select(a => new SelectListItem() 
             { 
                 Value = a.AccountNumber.ToString(), 
                 Text = $"{a.AccountNumber} - {a.AccountType}" 
             }).ToList(),
             
+            // add payee list
             Payees = payees.Select(p => new SelectListItem()
             { 
                 Value = p.PayeeID.ToString(), 
@@ -86,12 +89,13 @@ public class BillPayController: Controller
             return RedirectToAction("Index", "Login");
         }
         
+        // create bill 
         var billPayObj = new BillPay
         {
             AccountNumber = vModel.AccountNumber,
             PayeeID = vModel.PayeeID,
             Amount = vModel.Amount,
-            ScheduleTimeUtc = vModel.ScheduleTimeUtc, // <-- bound correctly now
+            ScheduleTimeUtc = vModel.ScheduleTimeUtc,
             BillPeriod = vModel.BillPeriod, 
             Status = BillStatus.Pending
         };
@@ -102,11 +106,12 @@ public class BillPayController: Controller
         {
             BillPayID = b.BillPayID,
             AccountNumber = b.AccountNumber,
-            PayeeID = b.PayeeID,
+            PayeeID = b.Payee.Name,
             Amount = b.Amount,
             BillPeriod = b.BillPeriod,
             ScheduleTimeUtc = b.ScheduleTimeUtc,
-            Status = b.Status, // assuming Status is enum
+            Status = b.Status,
+            ErrorMessage = b.ErrorMessage,
             
         }).ToList();
 
@@ -117,6 +122,7 @@ public class BillPayController: Controller
             Bills = billsViewModel
         };
         
+        // display update in view
         return View("Index", model);
     }
 
@@ -133,11 +139,12 @@ public class BillPayController: Controller
             {
                 BillPayID = b.BillPayID,
                 AccountNumber = b.AccountNumber,
-                PayeeID = b.PayeeID,
+                PayeeID = b.Payee.Name,
                 Amount = b.Amount,
                 BillPeriod = b.BillPeriod,
                 ScheduleTimeUtc = b.ScheduleTimeUtc,
-                Status = b.Status
+                Status = b.Status,
+                ErrorMessage = b.ErrorMessage,
             }).ToList(),
 
             Message = msg,
@@ -162,11 +169,12 @@ public class BillPayController: Controller
             {
                 BillPayID = b.BillPayID,
                 AccountNumber = b.AccountNumber,
-                PayeeID = b.PayeeID,
+                PayeeID = b.Payee.Name,
                 Amount = b.Amount,
                 BillPeriod = b.BillPeriod,
                 ScheduleTimeUtc = b.ScheduleTimeUtc,
-                Status = b.Status
+                Status = b.Status,
+                ErrorMessage = b.ErrorMessage,
             }).ToList(),
 
             Message = "",

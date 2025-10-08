@@ -7,9 +7,14 @@ namespace CustomerPortal.Data.Repository.Impl;
 public class BillPayRepository: IBillPayRepository
 {
     private readonly McbaContext _db;
+    private readonly ITransactionRepository _transactionRepository;
     
-    public BillPayRepository(McbaContext db) => _db = db;
-    
+    public BillPayRepository(McbaContext db, ITransactionRepository transactionRepository)
+    {
+        _db = db;
+        _transactionRepository = transactionRepository;
+    }
+
     public async Task<List<BillPay>> GetBillsForCustomer(int customerId)
     {
         return await _db.BillPay
@@ -64,21 +69,49 @@ public class BillPayRepository: IBillPayRepository
 
         foreach (var bill in dueBills)
         {
-            // check if there enough balance for deduction
-            var account = await _db.Accounts.FindAsync(bill.AccountNumber);
-            if (account != null && account.Balance >= bill.Amount)
+            // check if there is enough balance for deduction
+            try
             {
-                account.Balance -= bill.Amount;
-                bill.Status = BillStatus.Success;
-                bill.ErrorMessage = null;
-            }
-            else
-            { 
-                bill.Status = BillStatus.Failed;
-                bill.ErrorMessage = "Insufficient balance";
-            }
-        }
+                var account = await _db.Accounts.FindAsync(bill.AccountNumber);
+                if (account != null && account.Balance >= bill.Amount)
+                {
+                    account.Balance -= bill.Amount;
+                    bill.Status = BillStatus.Success;
+                    bill.ErrorMessage = null;
+                    
+                    if (bill.BillPeriod == BillPeriod.Monthly)
+                    {
+                        // Schedule for next month
+                        bill.ScheduleTimeUtc = bill.ScheduleTimeUtc.AddMonths(1);
+                        // set status to pending for next bill
+                        bill.Status = BillStatus.Pending; 
+                    }
+                    
+                    // if bill pay is processing, creating transction for the bill
+                    var billPayTransaction = new Transaction
+                    {
+                        AccountNumber = account.AccountNumber,
+                        TransactionType = TransactionType.BIllPay,
+                        Amount = bill.Amount,
+                        TransactionTimeUtc = DateTime.UtcNow
+                    };
 
-        await _db.SaveChangesAsync();
+                    await _transactionRepository.CreateTransaction(billPayTransaction);
+                }
+                else
+                {
+                    // store error msg and change status to failed
+                    bill.Status = BillStatus.Failed;
+                    bill.ErrorMessage = "Insufficient balance";
+                }
+            }
+            catch (Exception ex)
+            {
+                bill.Status = BillStatus.Failed;
+                bill.ErrorMessage = "Bill payment Failed: " + ex.Message;;
+            }
+            
+            await _db.SaveChangesAsync();
+        }
     }
 }
