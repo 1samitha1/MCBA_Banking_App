@@ -30,6 +30,7 @@
                         <th>Period</th>
                         <th>Scheduled Time</th>
                         <th>Status</th>
+                        <th>Messages</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -49,6 +50,9 @@
                                 <span class="badge bg-@(bill.Status == BillStatus.Pending ? "warning" : bill.Status == BillStatus.Success ? "success" : "danger")">
                                     @bill.Status
                                 </span>
+                            </td>
+                            <td>
+                                @bill.ErrorMessage
                             </td>
                             <td>
                                 @if (bill.Status == BillStatus.Pending)

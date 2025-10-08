@@ -8,7 +8,7 @@ public class BillPayViewModel
 
     public int AccountNumber { get; set; }
     
-    public int PayeeID { get; set; }
+    public string PayeeID { get; set; }
    
     public decimal Amount { get; set; }
 
@@ -16,7 +16,9 @@ public class BillPayViewModel
 
     public DateTime ScheduleTimeUtc { get; set; }
 
-    public string LocalScheduleTime => ScheduleTimeUtc.ToString("g"); 
+    public string LocalScheduleTime => ScheduleTimeUtc.ToString("yyyy-MM-dd hh:mm tt"); 
 
     public BillStatus Status { get; set; }
+    
+    public string? ErrorMessage { get; set; }
 }

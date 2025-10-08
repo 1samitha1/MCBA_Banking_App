@@ -22,9 +22,11 @@ public class BillPayBackgroundService: BackgroundService
                 await billService.ProcessDueBills();
             }
 
-            // run every minute
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); 
-            _logger.LogInformation("BillPayBackgroundService ran at {Time}", DateTimeOffset.Now);
+            // run every 20 seconds
+            await Task.Delay(20000, stoppingToken); 
+            
+            // log the information to the server
+            _logger.LogInformation("\n-- BillPayBackgroundService ran at {Time}", DateTimeOffset.Now + " -- \n");
         }
     }
 }

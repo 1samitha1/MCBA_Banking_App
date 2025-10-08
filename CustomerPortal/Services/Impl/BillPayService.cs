@@ -8,11 +8,13 @@ public class BillPayService: IBillPayService
 {
     private readonly IBillPayRepository _billPayRepository;
     private readonly IPayeeRepository _payeeRepository;
+    private readonly ITransactionRepository _transactionRepository;
     
-    public BillPayService(IBillPayRepository billPayRepository, IPayeeRepository payeeRepository)
+    public BillPayService(IBillPayRepository billPayRepository, IPayeeRepository payeeRepository, ITransactionRepository transactionRepository)
     {
         _billPayRepository =  billPayRepository;
         _payeeRepository = payeeRepository;
+        _transactionRepository = transactionRepository;
     }
 
     public async Task<IEnumerable<BillPay>> GetBills(int customerId)
