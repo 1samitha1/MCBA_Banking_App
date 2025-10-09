@@ -1,0 +1,37 @@
+@model AdminPortal.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Admin Login Page";
+    ViewData["HideNav"] = true;
+
+}
+
+<div class="d-flex text-center justify-content-center align-items-center">
+    
+    <div class="card p-5 mt-5" style="width: 90%;">
+        <h2 class="mb-3 text-center">Welcome Admin</h2>
+        <span class="text-center text-muted mb-2">Admin Portal - MCBA</span>
+
+        <div class="d-flex justify-content-center">
+            <div class="card shadow p-4" style="width: 500px;">
+                <h2 class="mb-2 text-center">Login</h2>
+                <form asp-controller="Login" asp-action="HandleLogin" method="post">
+                    <div class="form-group">
+                        <label asp-for="LoginID">Login ID</label>
+                        <!-- need asp-for for inputs -->
+                        <input width="30px" type="text" class="form-control" asp-for="LoginID" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password">Password</label>
+                        <input type="password" class="form-control" asp-for="Password" required/>
+                    </div>
+                    <div class="d-grid justify-content-center align-items-center" style="width: 100%; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
