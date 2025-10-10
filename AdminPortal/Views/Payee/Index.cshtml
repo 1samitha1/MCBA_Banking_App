@@ -1,0 +1,224 @@
+@model AdminPortal.ViewModels.PayeeListViewModel
+@{
+    ViewData["Title"] = "Handle Payees";
+}
+
+@section Scripts {
+    <script>
+        // handle view edit payee modal
+        document.addEventListener("DOMContentLoaded", function () {
+            var hasSelectedPayee = @((Model.SelectedPayee != null).ToString().ToLower());
+    
+            if (hasSelectedPayee) {
+                var editModalEl = document.getElementById('editPayeeModal');
+                var editModal = new bootstrap.Modal(editModalEl);
+                editModal.show();
+            }
+        });
+
+        // handle hide success and error msgs
+        var sMsg = document.getElementById('successMsg')
+        if(showMsg) {
+            setTimeout(() => {
+                sMsg.style.transition = "opacity 0.5s";
+                sMsg.style.opacity = '0';
+                setTimeout(() => sMsg.remove(), 500);
+            }, 3000);
+        }
+
+        var eMsg = document.getElementById('errorMsg')
+        if(showMsg) {
+            setTimeout(() => {
+                eMsg.style.transition = "opacity 0.5s";
+                eMsg.style.opacity = '0';
+                setTimeout(() => eMsg.remove(), 500);
+            }, 3000);
+        }
+    </script>
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+    <h3 class="mb-3 text-center">Payees</h3>
+    <h6 class="text-center text-muted mb-2">Display All Payess. You can filter Payess by their postcode</h6>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successMsg" class="alert alert-success text-center ">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="errorMsg" class="alert alert-danger text-center msgs">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="row mt-2 mb-4">
+        <form asp-action="Filter" method="get">
+            <label for="postalCodeFilter" class="form-label">Filter by Postal Code</label>
+            <select name="postalCode" id="postalCodeFilter" class="form-select" onchange="this.form.submit()">
+                <option selected value="">All Postal Code</option>
+                @foreach (var postCode in Model.AllPostalCodes)
+                {
+                    <option value="@postCode" selected="@(postCode == Model.SelectedPostalCode ? "selected" : null)">
+                        @postCode
+                    </option>
+                }
+            </select>
+        </form>
+        
+    </div>
+    
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-primary">
+        <tr>
+            <th>Payee ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Post Code</th>
+            <th>Phone</th>
+            <th>Modify</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var payee in Model.Payees)
+        {
+            <tr>
+                <td>@payee.PayeeID</td>
+                <td>@payee.Name</td>
+                <td>@payee.Address</td>
+                <td>@payee.City</td>
+                <td>@payee.State</td>
+                <td>@payee.PostCode</td>
+                <td>@payee.Phone</td>
+                <td>
+                    <form method="get" asp-action="Edit" asp-controller="Payee">
+                        <input type="hidden" name="payeeId" value="@payee.PayeeID" />
+                        <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="row">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPayeeModal">Add Payee</button>
+    </div>
+    
+    <!-- Edit Payee Modal -->
+    <div class="modal fade" id="editPayeeModal" tabindex="-1" aria-labelledby="editPayeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form asp-controller="Payee" asp-action="Save" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modify Payee Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label asp-for="SelectedPayee.PayeeID" class="form-label"></label>
+                            <input id="payeeID" disabled asp-for="SelectedPayee.PayeeID"/>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.Name" class="form-label"></label>
+                                <input required asp-for="SelectedPayee.Name" class="form-control"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.Address" class="form-label"></label>
+                                <input required asp-for="SelectedPayee.Address" class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.City" class="form-label"></label>
+                                <input asp-for="SelectedPayee.City" class="form-control"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.State" class="form-label"></label>
+                                <input asp-for="SelectedPayee.State" class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.PostCode" class="form-label"></label>
+                                <input asp-for="SelectedPayee.PostCode" class="form-control"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SelectedPayee.Phone" class="form-label"></label>
+                                <input asp-for="SelectedPayee.Phone" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Update Payee</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+     <!-- Create Payee Modal -->
+    <div class="modal fade" id="createPayeeModal" tabindex="-1" aria-labelledby="createPayeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form asp-controller="Payee" asp-action="Create" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Payee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.Name" class="form-label"></label>
+                                <input required id="name" asp-for="NewPayee.Name" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.Address" class="form-label"></label>
+                                <input required id="address" asp-for="NewPayee.Address" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.City" class="form-label"></label>
+                                <input id="city" asp-for="NewPayee.City" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.State" class="form-label"></label>
+                                <input required id="state" asp-for="NewPayee.State" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.PostCode" class="form-label"></label>
+                                <input required id="postCode" asp-for="NewPayee.PostCode" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NewPayee.Phone" class="form-label"></label>
+                                <input required id="phone" asp-for="NewPayee.Phone" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Payee</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
