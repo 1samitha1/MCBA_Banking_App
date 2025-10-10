@@ -15,7 +15,7 @@
             <div class="form-group mb-3">
                <label asp-for="AccountNumber">Account</label>
                <select asp-for="AccountNumber" class="form-select" required>
-                  <option value="">-- Select account --</option>
+                  <option value="">Select account</option>
                   @if (Model.Accounts is not null && Model.Accounts.Any())
                   {
                      @foreach (var acc in Model.Accounts)

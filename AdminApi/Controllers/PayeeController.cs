@@ -41,13 +41,18 @@ public class PayeeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatePayee([FromBody]PayeeDto payeeDto, CancellationToken ct)
     {
-        Console.WriteLine(payeeDto.Name);
         if (!ModelState.IsValid) return BadRequest(ModelState);
         await _payeeRepository.CreatePayeeAsync(payeeDto,ct);
         return Created("", new{message="Payee Created"});
         
-        
     }
     
-    
+    [HttpPut]
+    public async Task<IActionResult> UpdatePayee([FromBody]Payee payee, CancellationToken ct)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        await _payeeRepository.UpdatePayeeAsync(payee, ct);
+        return Created("", new{message="Payee Updated"});
+        
+    }
 }
