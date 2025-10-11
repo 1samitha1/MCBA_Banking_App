@@ -99,24 +99,23 @@ public class PayeeController: Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Save(PayeeViewModel payee)
+    public async Task<IActionResult> Update(PayeeListViewModel model)
     {
-        Console.WriteLine("Save Payee calling");
+        var payee = model.SelectedPayee;
+
         string url = "api/Payee";
         var json = JsonSerializer.Serialize(payee);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        
+
         using var response = await _client.PutAsync(url, content);
-        
+
         if (response.IsSuccessStatusCode)
-        {
             TempData["SuccessMessage"] = "Payee updated successfully!";
-        }
         else
         {
-            TempData["ErrorMessage"] = "Failed to update payee. Please try again.";
+            TempData["ErrorMessage"] = "Failed to update payee.";
         }
-        
+
         return RedirectToAction("Index");
     }
     
