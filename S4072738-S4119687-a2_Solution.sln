@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApi", "AdminApi\AdminA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortal", "AdminPortal\AdminPortal.csproj", "{FD079748-D7B0-43E8-9AD6-CF4BCCE19B02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortal.Test", "AdminPortal.Test\AdminPortal.Test.csproj", "{2E1D20B2-6C35-452B-9637-04730F775A2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{FD079748-D7B0-43E8-9AD6-CF4BCCE19B02}.Release|x64.Build.0 = Release|Any CPU
 		{FD079748-D7B0-43E8-9AD6-CF4BCCE19B02}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD079748-D7B0-43E8-9AD6-CF4BCCE19B02}.Release|x86.Build.0 = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|x64.Build.0 = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2E1D20B2-6C35-452B-9637-04730F775A2A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
