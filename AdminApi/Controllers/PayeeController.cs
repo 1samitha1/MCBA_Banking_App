@@ -52,7 +52,7 @@ public class PayeeController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         await _payeeRepository.UpdatePayeeAsync(payee, ct);
-        return Created("", new{message="Payee Updated"});
+        return Ok(new{message="Payee Updated"});
         
     }
 }

@@ -18,21 +18,21 @@
 
         // handle hide success and error msgs
         var sMsg = document.getElementById('successMsg')
-        if(showMsg) {
+        if(sMsg) {
             setTimeout(() => {
                 sMsg.style.transition = "opacity 0.5s";
                 sMsg.style.opacity = '0';
                 setTimeout(() => sMsg.remove(), 500);
-            }, 3000);
+            }, 2500);
         }
 
         var eMsg = document.getElementById('errorMsg')
-        if(showMsg) {
+        if(eMsg) {
             setTimeout(() => {
                 eMsg.style.transition = "opacity 0.5s";
                 eMsg.style.opacity = '0';
                 setTimeout(() => eMsg.remove(), 500);
-            }, 3000);
+            }, 2500);
         }
     </script>
 }
@@ -112,7 +112,7 @@
     <div class="modal fade" id="editPayeeModal" tabindex="-1" aria-labelledby="editPayeeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form asp-controller="Payee" asp-action="Save" method="post">
+                <form asp-controller="Payee" asp-action="Update" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title">Modify Payee Details</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -120,7 +120,10 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label asp-for="SelectedPayee.PayeeID" class="form-label"></label>
-                            <input id="payeeID" disabled asp-for="SelectedPayee.PayeeID"/>
+                            @* <input id="payeeID" disabled asp-for="SelectedPayee.PayeeID"/> *@
+                            
+                            <input type="hidden" asp-for="SelectedPayee.PayeeID" />
+                            <input id="payeeID" disabled value="@Model.SelectedPayee?.PayeeID"/>
                         </div>
 
                         <div class="row mb-3">
