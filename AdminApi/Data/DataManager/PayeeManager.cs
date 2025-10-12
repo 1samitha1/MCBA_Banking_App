@@ -27,10 +27,6 @@ public class PayeeManager : IPayeeRepository
         return await query
             .OrderBy(p => p.Name)
             .ToListAsync(ct);
-        
-        // await _db.Payees.Where(p => p.PostCode == postcode)
-        //     .OrderBy(p => p.Name)
-        //     .ToListAsync(ct);
     }
     
     public async Task<Payee?> GetPayeeAsync(int payeeId, CancellationToken ct = default)
