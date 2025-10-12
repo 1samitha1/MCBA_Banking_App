@@ -17,8 +17,7 @@ public class PayeeManager : IPayeeRepository
     public async Task<List<Payee>> GetAllPayeesAsync(string? postcode, CancellationToken ct = default)
     {
         var query = _db.Payees.AsQueryable();
-
-        // if filter available setting the filter
+        
         if (!string.IsNullOrEmpty(postcode))
         {
             query = query.Where(p => p.PostCode == postcode);

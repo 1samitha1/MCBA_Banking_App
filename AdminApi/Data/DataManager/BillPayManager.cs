@@ -1,6 +1,8 @@
 using AdminApi.Data.Repository;
+using AdminApi.Dtos;
 using CustomerPortal.Data;
 using CustomerPortal.Models;
+using CustomerPortal.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdminApi.Data.DataManager;
@@ -14,9 +16,27 @@ public class BillPayManager : IBillPayRepository
         _db = db;
     }
 
-    public async Task<List<BillPay>> GetAllAsync(bool? isBlocked, CancellationToken ct = default)
+    public async Task<List<BillPayDto>> GetAllAsync(bool? isBlocked, CancellationToken ct = default)
     {
-        return await _db.BillPay.Where(b => b.IsBlocked == isBlocked).ToListAsync(ct);
+        var query = _db.BillPay.AsQueryable();
+        
+        if (isBlocked is not null)
+        {
+            query = query.Where(b => b.IsBlocked == isBlocked);
+        }
+
+        return await query
+            .OrderBy(b => b.BillPayID)
+            .Select(b => new BillPayDto(
+                b.PayeeID,
+                b.AccountNumber,
+                b.PayeeID,
+                b.Payee.Name,
+                b.Amount,
+                b.ScheduleTimeUtc,
+                b.BillPeriod,
+                b.IsBlocked))
+            .ToListAsync(ct);
     }
 
     public async Task<BillPay?> GetAsync(int id, CancellationToken ct = default)

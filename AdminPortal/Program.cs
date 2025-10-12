@@ -3,11 +3,20 @@ using System.Net.Mime;
 using AdminPortal.Services;
 using AdminPortal.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+
+//This removes ambiguous error from using controllers in Customer portal
+builder.Services.AddControllersWithViews().ConfigureApplicationPartManager(apm =>
+{
+    var remove = apm.ApplicationParts
+        .OfType<AssemblyPart>()
+        .FirstOrDefault(p => p.Assembly.GetName().Name == "CustomerPortal");
+    if (remove != null) apm.ApplicationParts.Remove(remove);
+});
 // Cookie Auth for the MVC portal
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
@@ -41,6 +50,7 @@ builder.Services.AddHttpClient("AdminApi", client =>
         new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 }).AddHttpMessageHandler<SessionBearerTokenHandler>();
 builder.Services.AddScoped<IApiAuthClient, ApiAuthClient>();
+builder.Services.AddScoped<IApiBillPayService, ApiBillPayService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

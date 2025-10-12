@@ -26,7 +26,7 @@ public class LoginController: Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> HandleLogin(AdminLoginViewModel model, CancellationToken ct)
+    public async Task<IActionResult> HandleAdminLogin(AdminLoginViewModel model, CancellationToken ct)
     {
         if (!ModelState.IsValid) return View(model);
         var (ok, token, role, expireAt, error) = await _apiAuth.LoginAsync(model.LoginID,model.Password,ct);
