@@ -7,7 +7,7 @@ using IPayeeRepository = AdminApi.Data.Repository.IPayeeRepository;
 
 namespace AdminApi.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/admin/[controller]")]
 public class PayeeController : ControllerBase
