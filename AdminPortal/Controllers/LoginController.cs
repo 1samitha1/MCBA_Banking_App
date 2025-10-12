@@ -28,13 +28,13 @@ public class LoginController: Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> HandleAdminLogin(AdminLoginViewModel model, CancellationToken ct)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) return View("Index",model);
         var (ok, token, role, expireAt, error) = await _apiAuth.LoginAsync(model.LoginID,model.Password,ct);
 
         if (!ok || token == null)
         {
             ModelState.AddModelError(string.Empty, error ?? "Login failed try again!");
-            return View(model);
+            return View("Index",model);
         }
         
         //Log-in cookie
