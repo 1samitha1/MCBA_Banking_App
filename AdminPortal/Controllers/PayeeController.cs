@@ -13,7 +13,7 @@ public class PayeeController: Controller
     
     public PayeeController(IHttpClientFactory clientFactory)
     {
-        _client = clientFactory.CreateClient("api/admin");
+        _client = clientFactory.CreateClient("api");
     }
     
     public async Task<IActionResult> Index()
