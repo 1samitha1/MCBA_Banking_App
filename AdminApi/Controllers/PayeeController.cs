@@ -9,7 +9,7 @@ namespace AdminApi.Controllers;
 
 [Authorize(Roles = "Admin")]
 [ApiController]
-[Route("api/admin/[controller]")]
+[Route("api/[controller]")]
 public class PayeeController : ControllerBase
 {
     private readonly IPayeeRepository _payeeRepository;
