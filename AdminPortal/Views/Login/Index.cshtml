@@ -14,6 +14,17 @@
         <div class="d-flex justify-content-center">
             <div class="card shadow p-4" style="width: 500px;">
                 <h2 class="mb-2 text-center">Login</h2>
+                <!-- Model validation summary (only render when there are errors) -->
+                @{
+                    var hasModelErrors = !ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0;
+                }
+                @if (hasModelErrors)
+                {
+                    <div class="alert alert-danger py-2" role="alert" aria-live="assertive">
+                        <div asp-validation-summary="All"></div>
+                    </div>
+                }
+                
                 <form asp-controller="Login" asp-action="HandleAdminLogin" method="post">
                     <div class="form-group">
                         <label asp-for="LoginID">Login ID</label>
