@@ -75,8 +75,9 @@
                     <form asp-action="ToggleBlock" method="post" class="d-inline">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" value="@b.BillPayID" />
-                        <input type="hidden" name="toBlocked" value="@(!b.IsBlocked)" />
+                        <input type="hidden" name="toBlocked" value="@(b.IsBlocked ? "false" : "true")" />
                         <input type="hidden" name="isBlocked" value="@(Model.FilterIsBlocked?.ToString().ToLower())" />
+
                         @if (b.IsBlocked)
                         {
                             <button type="submit" class="btn btn-sm btn-outline-success">Unblock</button>

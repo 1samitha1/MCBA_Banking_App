@@ -46,8 +46,13 @@ public class BillPayManager : IBillPayRepository
 
     public async Task SetBlockedAsync(int id, bool block, CancellationToken ct = default)
     {
-        var entity = await _db.BillPay.SingleOrDefaultAsync(b => b.BillPayID == id, ct)
-                     ?? throw new KeyNotFoundException($"BillPay {id} not found");
+
+        var entity = await _db.BillPay.SingleOrDefaultAsync(b => b.BillPayID == id, ct);
+        if (entity == null)
+        {
+            throw new KeyNotFoundException($"BillPay {id} not found");
+        }
+
         entity.IsBlocked = block;
         await _db.SaveChangesAsync(ct);
     }
