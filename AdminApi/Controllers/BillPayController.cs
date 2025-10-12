@@ -7,7 +7,7 @@ namespace AdminApi.Controllers;
 
 [Authorize(Roles = "Admin")]
 [ApiController]
-[Route("api/admin/[controller]")]
+[Route("api/[controller]")]
 [ValidateAntiForgeryToken]
 public class BillPayController :ControllerBase
 {
