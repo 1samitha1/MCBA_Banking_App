@@ -1,0 +1,95 @@
+@using CustomerPortal.Utility
+@model AdminPortal.ViewModels.BillPayListViewModel
+@{
+    ViewData["Title"] = "Handle BillPay";
+}
+
+@section Scripts {
+    <script>
+        // hide success/error messages after a short delay
+        const hide = (id) => {
+            const el = document.getElementById(id);
+            if(!el) return;
+            setTimeout(() => {
+                el.style.transition = "opacity 0.5s";
+                el.style.opacity = "0";
+                setTimeout(() => el.remove(), 500);
+            }, 2500);
+        };
+        document.addEventListener("DOMContentLoaded", () => {
+            hide("successMsg"); hide("errorMsg");
+        });
+    </script>
+}
+
+<div class="text-center justify-content-center align-items-center d-flex flex-column">
+    <h3 class="mb-3 text-center">BillPay</h3>
+    <h6 class="text-center text-muted mb-2">Display and control scheduled bills.</h6>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successMsg" class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="errorMsg" class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+    }
+    
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-primary">
+        <tr>
+            <th>BillPay ID</th>
+            <th>Account #</th>
+            <th>Payee</th>
+            <th>Amount</th>
+            <th>Schedule (Local)</th>
+            <th>Period</th>
+            <th>Status</th>
+            <th>Modify</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var b in Model.Items)
+        {
+            <tr>
+                <td>@b.BillPayID</td>
+                <td>@b.AccountNumber</td>
+                <td>@b.PayeeName</td>
+                <td>@b.Amount.ToString("C")</td>
+                <td>@b.ScheduleTimeLocal.ToString("dd/MM/yyyy hh:mm tt")</td>
+                <td>
+                    @(b.Period == BillPeriod.Monthly ? "Monthly" : "One-off")
+                </td>
+                <td>
+                    @if (b.IsBlocked)
+                    {
+                        <span class="badge bg-danger">Blocked</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                </td>
+                <td>
+                    <form asp-action="ToggleBlock" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@b.BillPayID" />
+                        <input type="hidden" name="toBlocked" value="@(b.IsBlocked ? "false" : "true")" />
+                        <input type="hidden" name="isBlocked" value="@(Model.FilterIsBlocked?.ToString().ToLower())" />
+
+                        @if (b.IsBlocked)
+                        {
+                            <button type="submit" class="btn btn-sm btn-outline-success">Unblock</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Block</button>
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
