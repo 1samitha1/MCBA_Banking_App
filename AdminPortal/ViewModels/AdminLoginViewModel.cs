@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdminPortal.ViewModels;
 
-public class LoginViewModel
+public class AdminLoginViewModel
 {
     [Required]
     [Display(Name = "Login ID")]
@@ -10,4 +10,5 @@ public class LoginViewModel
 
     [Required, DataType(DataType.Password)]
     public string Password { get; set; } = default!;
+    public string? ReturnUrl { get; set; }
 }

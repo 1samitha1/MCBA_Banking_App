@@ -1,10 +1,12 @@
 using System.Text;
 using System.Text.Json;
 using AdminPortal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPortal.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class PayeeController: Controller
 {
     private readonly HttpClient _client;
@@ -13,7 +15,7 @@ public class PayeeController: Controller
     {
         _client = clientFactory.CreateClient("api");
     }
-
+    
     public async Task<IActionResult> Index()
     {
         
