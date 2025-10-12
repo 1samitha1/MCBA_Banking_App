@@ -1,13 +1,15 @@
 using AdminApi.Dtos;
 using CustomerPortal.Data.Repository;
 using CustomerPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using IPayeeRepository = AdminApi.Data.Repository.IPayeeRepository;
 
 namespace AdminApi.Controllers;
 
+[Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/admin/[controller]")]
 public class PayeeController : ControllerBase
 {
     private readonly IPayeeRepository _payeeRepository;
@@ -23,10 +25,8 @@ public class PayeeController : ControllerBase
         List<Payee> allPayeesAsync = await _payeeRepository.GetAllPayeesAsync(postcode);
         if (allPayeesAsync is null)
         {
-            Console.WriteLine("Payee not found");
             return NotFound();
         }
-        Console.WriteLine("Payee found");
         if (allPayeesAsync.Count == 0)
         {
             return Ok("There are no payees");
